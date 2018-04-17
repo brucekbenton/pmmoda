@@ -1,0 +1,26 @@
+﻿<div class="viewContainer" style="background-color:blue">Project Team
+    <div class="pageHeader">Project Team<button class="wizardQuitButton" type="button" ng-click="exitWizard()">Quit</button></div>
+    <div class="wizardBox" style="display:inline-block;" >
+        <div id="name" class="wizardRow" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()">
+            Name: <input type="text" class="inputColumn" style="left:220px;width:320px;" ng-model="$parent.projectName" />
+        </div>
+        <div id="description" class="wizardRow" style="height:35px;" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()">
+            Description: <textarea type="text" class="inputColumn" style="height:50px; width:318px; font-family:'Segoe UI';left:220px;" ng-model="$parent.projectDescription"></textarea>
+        </div>
+        <br />
+        <div id="Activity" class="wizardRow" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()">
+            Activity Model: <select type="combobox" class="inputColumn" style="left:220px;width:325px;" ng-model="$parent.currentStaffModel" ng-options="staffModel.Name + ' ( ' + staffModel.Description + ')'  for staffModel in StaffingModels"></select>
+        </div>
+        <div id="Application" class="wizardRow" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()">
+            Application Type: <select type="combobox" class="inputColumn" style="left:220px;width:325px;"  ng-model="$parent.currentTemplate" ng-options="template.Name for template in ApplicationTypes"></select>
+        </div>
+    </div>
+    <div  ng-class="helpBoxStyle" >
+        <div><div class="helpName">{{topicName}}</div> <div class="helpDescription">{{topicDescription}}</div></div>
+    </div>
+
+    <div class="wizardRow" style="margin-left:285px;float:left;">
+        <button next-click data="currentStage" class="wizardButton">Next</button>
+
+    </div>
+</div>

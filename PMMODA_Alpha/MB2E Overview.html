@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<title>MB2E Overview</title>
+<style media="screen" type="text/css">
+    body {
+        margin-left: 20px;
+        font-family: 'Segoe UI';
+        font-size: 16px;
+    }
+    body div {
+        max-width:1000px;
+    }
+
+    p {
+        max-width: 1000px;
+    }
+
+    table {
+        padding: 0px;
+    }
+
+        table thead {
+            background-color: orange;
+            color: white;
+            font-weight: bold;
+        }
+
+        table td {
+            max-width: 600px;
+            padding-left: 10px;
+        }
+</style>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="Content/StyleSheet1.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="pageHeader">
+        Model Based Effort Estimation (MB2E) Overview
+    </div>
+
+    <div class="helpBody" style="margin-top:40px;">
+        Bad project estimation and scoping practices cost the US software industry over 35B$ per year. This is a conservative estimate of the money spent in this country each year on IT projects cancelled due to scope management problems. That constitutes approximately 10% of the yearly IT expenditure. This does not account for effort wasted on individual failed features that get cut and it does not account for the effort spent generating and maintaining project estimates. Most importantly, it does not account for the financial and morale costs to your organization of constantly struggling to meet internal and external expectations for product delivery. The emotional impact on your organization of constantly putting people under pressure to “catch up” on unrealistic or unmanaged schedules has a deep and lasting cost. This includes increase medical expenses due to stress, reduced organizational efficiency due to frustration and burn out and increased staffing costs due to employee turnover. For organizations struggling with project estimation and planning the total percentage of your budget wasted on poor estimation can approach 30%.
+    </div>
+    <div class="helpBody">
+        While there are challenges to estimating software projects, many of these have been greatly exaggerated. It is possible to generate complete and accurate estimates for software development projects. Organizations simply have to invest in understanding the root causes of their current estimation problems and the basic corrective actions they need to take to address these problems.
+    </div>
+    <div class="helpBody">
+        Model Based Effort Estimation (MB2E) is a collection of best practices that can be followed by any organization to reduce the cost of their software development projects and significantly increase the completeness and accuracy of the project plans and schedules they are working towards.
+    </div>
+    <div class="helpBody">
+        MB2E is built on four fundamental assertions:
+    </div>
+    <div class="helpBody">
+        <ol type="1">
+            <li>All estimation is a combination of decomposition and comparison</li>
+            <li>Most companies produce most of the their deliverables in the same basic problem domain area and use the same basic development tools and frameworks</li>
+            <li>The biggest impediment to complete and accurate estimates is ensuring a common understanding of work scope and standard productivity across your company</li>
+            <li>Estimation should be based on natural productivity units of the organization and not artificial constructs like lines of code or function points.</li>
+        </ol>
+    </div>
+    <div class="helpBody">
+        While there are companies for whom these assumptions may not all hold valid they are very much the exception and largely exist in some type of service industry. For most companies the second item represents both their core competency and competitive advantage along with the value of the collected skills and knowledge of their workers.
+    </div>
+    <div class="helpBody">
+        The third item reflects the belief that a disproportionate percentage of estimation problems are due to mismatched assumptions and expectations across the team responsible for planning and delivering the final product. This can be simple confusion about the product roadmap for the system under development, confusion on the design patterns to be followed during implementation or a lack of historically accurate productivity data.
+    </div>
+    <div class="helpBody">
+        There are three key components, or models, generated according to MB2E. These are the Productivity Model, the Scope Model and the Effort Model.
+    </div>
+    <img src="images/MB2E Model View.png" style="width:800px;margin-top:40px;margin-bottom:40px;" />
+    <div class="helpBody">
+        These three models working in conjunction ensure that your estimates are complete (i.e. all required project activities and deliverables are included in your work plan) and accurate (i.e. the projected effort for each deliverable accurately reflects the work required by your project team to deliver it). Note that the estimates will only be accurate in aggregate since they are average estimates and require the large number of deliverables for the estimate to be accurate. Ideally large would mean at least 50 instances of each unit but reasonable accuracy can be achieved with 10 - 15 instances of each unit.
+    </div>
+    <div class="helpBody">
+        The Productivity Model ensures that the organization has a common understanding of the natural deliverable units typically produced as part of your project efforts as well as the typical effort involved in creating one of these standard deliverables. These Natural Units will be defined by your problem domain area, your application architecture and the technology you choose to implement your systems. Typical examples of these units are things like:
+    </div>
+    <div class="helpBody">
+        <ol type="1">
+            <li>Client Forms</li>
+            <li>Web Forms</li>
+            <li>Custom Controls</li>
+            <li>Web Services</li>
+            <li>Business Objects</li>
+            <li>Resource Strings</li>
+            <li>User Documentation Topics</li>
+        </ol>
+    </div>
+    <div class="helpBody">
+        Additionally, the Productivity Model captures standard effort numbers for various complexity instances of these standard deliverables. Typically you would represent the effort for a low complexity, a medium complexity and a high complexity instance of each of these Natural Units. While the exact set will very some over time and by project you should see that the Natural Units produced by all projects overlap to a significant degree. Additionally, the historical productivity data should be comparable for each project since you are using the same technology and working in the same basic problem domain area. This means you can generate one Productivity Model for your organization and update it as your productivity understanding grows. The same model should be used for all projects within this organization. Where you have projects that violate the assumption of shared problem domain or shared architecture/technology you should identify a new organization and generate a separate Productivity Model for that organization.
+    </div>
+    <div class="helpBody">
+        The Scope Model represents a structured description of the proposed system capability expressed as features or modules represented in terms of the Natural Units defined in the Productivity Model above. This means that you might have a Login feature that was comprised of a single low complexity web form, a high complexity authentication web service, and a low complexity backing user business object. The model is then based on a basic understanding of the high level system features, the approximate number of the constituent natural units and the relative complexity of those units. Finally, the estimates generated rely on the accuracy of applying averages in aggregates to large data sets. While the average effort numbers in the productivity model are highly suspect when applied to a single instance the Law of Large Numbers says they are accurate in summary when applied to dozens or hundreds of those same standard deliverables. Additionally, you only need to track the average productivity numbers over time to update your models and increase your accuracy. One scope model is generated for each project.
+    </div>
+    <div class="helpBody">
+        The main challenge in the scope model is to ensure that all required project scope is reflected in the project plans and estimates. The best way of achieving this goal is to ensure that all participating roles are represented in the estimation process, that each role has a thorough understanding of their Natural Unit deliverables discussed above and there is a transparent and discoverable enumeration of all planned features/capabilities. Thsi should be reviewed by the entire proejct team. While this does not guarantee 100% completeness in the scope it is the most actionable approach available.  It also maximizes the value of past experience. You may have one project that forgets to include sample or test data for an enterprise business system but the transparency in the Scope Model will ensure that it does not get forgotten again. Finally, since the model here is produced based on a high level understanding of each feature and the natural unit deliverables that will comprise each feature, it does not require detailed design documents in order to produce a comprehensive project estimate. The estimate can be generated relatively early in the project and enable informed business and scope management decisions in a much more timely manner.</div>
+    <div class="helpBody">
+        The Effort Model is basically the product of the Natural Unit count defined in the Scope Model with the per instance effort defined in the productivity model. It represents the projected total effort required to produce the deliverables represented in the corresponding scope model and can be used over time to track work remaining. Since the actual effort is generated as a model of documented assumptions, updating the estimate for work remaining is a simple matter of capturing the percent complete of each deliverable and making any updates to productivity which are required based on observable project execution. Even a project with a significant uncertainty in the initial estimate due to changes in problem domain or technology can be much more accurately predicted after 10% of the project has been completed.
+    </div>
+    <div class="helpBody">
+        The application of MB2E principals to your planning process will deliver the following benefits:
+    </div>
+    <div class="helpBody">
+        <ol type="1">
+            <li>Reduction in project labor costs of 10% - 30%</li>
+            <li>Improved completeness and accuracy in your estimates</li>
+            <li>Ensured commonality of understanding across dicisplines and teams</li>
+            <li>Inreased product quality due to support for Pattern Based Development and Model Based Testing</li>
+            <li>Decreased maintenance engineering costs due to more consistent adoption of design patterns</li>
+            <li>Improved organizational morale and efficiency</li>
+        </ol>
+        </div>
+        <div class="helpBody">
+            There is nothing about MB2E which requires specific tooling and effective implementations can be made using a spreadsheet as a modeling tool. However PMMODA can significantly increase the overall efficiency and reliability of your estimation process.
+        </div>
+</body>
+</html>

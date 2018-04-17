@@ -1,0 +1,416 @@
+﻿<!DOCTYPE html>
+
+<style>
+    .activityFrame {
+        position: absolute;
+        height: 24px;
+        border: solid 1px black;
+        background-color: yellowgreen;
+        /*        background: linear-gradient(yellowgreen,white,yellowgreen); */
+        white-space: nowrap;
+        overflow: hidden;
+        text-align: center;
+        font-size: 12px;
+    }
+
+    .modelFrame {
+        position: absolute;
+        width: 890px;
+        height: 250px;
+    }
+
+    .modelLabel {
+        margin-top: 10px;
+        margin-left: 25px;
+        font-weight: bold;
+        background-color: orange;
+        color: white;
+        border: solid 1px lightgray;
+    }
+
+    .weekFrame {
+        position: absolute;
+        height: 20px;
+        border: solid 1px black;
+        text-align: center;
+    }
+
+    /*    declare animation rules for the condition control panels  */
+    @keyframes showPreConditions {
+        from {
+            height: 0px;
+            border: 0px;
+        }
+
+        to {
+            height: 500px;
+            border: 1px;
+        }
+    }
+
+    @keyframes hidePreConditions {
+        from {
+            height: 500px;
+            border: 1px;
+        }
+
+        to {
+            height: 0px;
+            border: 0px;
+        }
+    }
+
+
+    .modelInputPanelActive {
+        position: absolute;
+        border: solid 1px black;
+        width: 550px;
+        height: 500px;
+        overflow: auto;
+        animation-name: showPreConditions;
+        animation-duration: .2s;
+        overflow: hidden;
+    }
+
+    .modelInputPanelInactive {
+        position: absolute;
+        border: solid 0px black;
+        width: 550px;
+        height: 0px;
+        overflow: auto;
+        animation-name: hidePreConditions;
+        animation-duration: .2s;
+        overflow: hidden;
+    }
+
+    .animationButton {
+        position: absolute;
+        height: 25px;
+        background-color: orange;
+        color: white;
+        font-weight: bold;
+        border: solid 1px lightgray;
+    }
+
+    .evenRow {
+        margin-top: 5px;
+        padding-bottom: 5px;
+        background-color: #eee;
+    }
+
+    .oddRow {
+        margin-top: 5px;
+        background-color: #fff;
+    }
+
+    .oddCalendarBar {
+        position: absolute;
+        background-color: #fff;
+        height: 800px;
+    }
+
+    .evenCalendarBar {
+        position: absolute;
+        background-color: #eee;
+        height: 800px;
+    }
+</style>
+
+<html ng-app="Model">
+<head>
+    <link href="../Content/StyleSheet1.css" rel="stylesheet" />
+    <base href="/" />
+    <meta charset="utf-8" />
+    <title>Model Test</title>
+    <script src="../Scripts/jquery-1.10.2.min.js"></script>
+    <script src="../Scripts/StaffingChart.js"></script>
+    <script src="../Scripts/cookieManagement.js"></script>
+    <script src="../Scripts/CommonConstants.js"></script>
+    <script src="../Scripts/Response.js"></script>
+    <link href="Content/StyleSheet1.css" rel="stylesheet" />
+</head>
+<body class="bodyStyle">
+
+        <div ng-controller="CustomModels" style="margin-left:0px;width:1500px;height:10000px;background-color:white">
+
+            <div ng-repeat="week in Calendar">
+                <div ng-class-even="'evenCalendarBar'" ng-class-odd="'oddCalendarBar'" ng-style="{'top':week.TopPos,'left': week.LeftPos,'width':week.WidthPos,'height':displayHeight}"></div>
+            </div>
+
+            <!--    Render the waterfall effort model-->
+            <div class="modelFrame" style="left:0px;height:125px;background-color:transparent" ng-style="{'top':displayPositions[0].Top}">
+                <div class="modelLabel" style="border:solid 1px lightgray" ng-click="toggleWaterfall()">Waterfall Model<img id="waterfallArray" style="margin-left:10px;margin-top:3px;" src="../images/up arrow.png" width="15" height="15" /></div>
+                <div ng-if="waterfallVisible" ng-repeat="activity in Activities">
+                    <div class="activityFrame" style="background:yellowgreen;white-space: nowrap;overflow:hidden" ng-style="{'width': waterfallActivityGraphics[$index].WidthPos,'left': waterfallActivityGraphics[$index].LeftPos,'top': waterfallActivityGraphics[$index].TopPos}">
+                        {{activity.Name}}
+                    </div>
+                </div>
+
+            </div>
+            <!--    Render the custom effort model-->
+            <div class="modelFrame" style="left:0px;background-color:transparent;" ng-style="{'top':displayPositions[1].Top}">
+                <div class="modelLabel" style="border:solid 1px lightgray" ng-click="toggleCustom()">Custom Model<img id="customVisibleArrow" style="margin-left:10px;margin-top:3px;" src="../images/up arrow.png" width="15" height="15" /></div>
+                <div ng-if="customVisible" ng-repeat="activity in Activities">
+                    <div ng-if="!getDelayStatus($index)" class="activityFrame" style="white-space: nowrap;overflow:hidden" ng-style="{'width': customActivityGraphics[$index].WidthPos,'left': customActivityGraphics[$index].LeftPos,'top': customActivityGraphics[$index].TopPos,'background':Colors[$index]}">
+                        {{activity.Name }}
+                    </div>
+                    <div ng-if="getDelayedStatus($index)" class="activityFrame" style="white-space: nowrap;overflow:hidden" ng-style="{'width':customActivityGraphics[$index].WidthPos,'left':customActivityGraphics[$index].LeftPos,'top':customActivityGraphics[$index].TopPos,'background':Colors[$index]}">
+                        {{activity.Name}}
+                    </div>
+                </div>
+            </div>
+            <!--    Add a canvas object to hold the resource line chart-->
+            <div>
+                <canvas ng-show="customVisible" id="lineChartCanvas" style="position:absolute;border:solid 0px black;left:0px;background-color:transparent;" width="890" height="300" ng-style="{'top':displayPositions[2].Top}"></canvas>
+            </div>
+            <!--    Render the concurrent effort model-->
+            <div class="modelFrame" style="left:0px;background-color:transparent" ng-style="{'top':displayPositions[3].Top}">
+                <div class="modelLabel" style="border:solid 1px lightgray" ng-click="toggleConcurrent()">Concurrent Model<img id="concurrentVisibleArrow" style="margin-left:10px;margin-top:3px;" src="../images/up arrow.png" width="15" height="15" /></div>
+                <!--            <div class="modelLabel">Concurrent Model</div> -->
+                <div ng-if="concurrentVisible" ng-repeat="activity in Activities">
+                    <div class="activityFrame" style="background:yellowgreen;white-space: nowrap;overflow:hidden" ng-style="{'width': concurrentActivityGraphics[$index].WidthPos,'left': concurrentActivityGraphics[$index].LeftPos,'top': concurrentActivityGraphics[$index].TopPos}">
+                        {{activity.Name}}
+                    </div>
+                </div>
+            </div>
+
+            <!--    Render the calendar display-->
+            <div class="modelFrame" style="left:0px;height:100px;background-color:transparent" ng-style="{'top':displayPositions[4].Top}">
+                <div ng-repeat="week in Calendar">
+                    <div class="weekFrame" ng-style="{'width':week.WidthPos,'left': week.LeftPos,'top': week.TopPos}">{{week.ID}}</div>
+                </div>
+                <div class="modelLabel">Calendar Week</div>
+            </div>
+
+            <!--    Precondition input control panel-->
+            <button id="btnShowPreconditions" type="button" class="animationButton" style="top:20px;left:1300px;width:170px;" ng-click="togglePreconditionPanel()">{{preConditionToggleButton.Name}}</button>
+            <div id="PreconditionInputPanel" class="modelInputPanelInactive" style="left:925px;top:50px;" ng-style="{'height':preConditionPanel.HeightPos,'border':preConditionBorder}">
+                <div style="text-align:center;font-weight:bold;font-size:20px;"> Preconditions</div>
+                <table class="standardTable" style="margin-top:25px;">
+                    <thead>
+                        <tr>
+                            <th class="staffingLabel" style="margin-left:5px;width:150px;">Activity</th>
+                            <th class="staffingLabel" style="width:150px;">Dependency</th>
+                            <th class="staffingLabel" style="width:100px;">Completion %</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div style="height:350px;overflow:auto">
+                    <div ng-repeat="activity in Activities" ng-init="activityIndex = $index">
+                        <div ng-class-even="'evenRow'" ng-class-odd="'oddRow'">
+                            <div class="staffingLabel" style="margin-left:10px;width:165px;">{{activity.Name}}</div>
+                            <div style="display:inline-block;width:310px;">
+                                <div style="margin-top:5px;" ng-repeat="condition in preConditions[$index]">
+                                    <div ng-if="condition.CompletionPercentage != undefined" style="display:inline-block;width:150px;">{{condition.Name}}</div>
+                                    <div ng-if="condition.CompletionPercentage != undefined" style="display:inline-block;margin-left:10px;width:60px"><input type="number" style="width:60px;text-align:right" ng-model="condition.CompletionPercentage" ng-blur="updateConditionHandler(activityIndex,$index)" /></div>
+                                    <div ng-if="condition.CompletionPercentage != undefined" style="display:inline-block;margin-left:40px;width:30px"><button class="cellButton" ng-click="deleteDependency(activity.ID,$index)">Delete</button></div>
+                                </div>
+                                <div style="margin-top:5px;">
+                                    <div style="display:inline-block;width:150px;"><select type="combobox" style="width:150px" ng-model="newRecord[$index].Dependency" ng-options="activity2.Name for activity2 in Activities"></select></div>
+                                    <div style="display:inline-block;margin-left:10px;width:60px;"><input type="number" style="width:60px;text-align:right" ng-model="newRecord[$index].CompletionPercentage"  /></div>
+                                    <div style="display:inline-block;margin-left:40px;width:30px"><button ng-disabled="newRecord[$index].Dependency == undefined || newRecord[$index].CompletionPercentage == undefined" class="cellButton" ng-click="addDependency($index)">Add</button></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="wizardRow" style="background-color:lightblue;"><button class="refreshButton" style="float:left;margin-left:225px;margin-top:10px;" ng-click="updatePage();">Update</button></div>
+            </div>
+            <!--    Render the post conditions input panel-->
+            <button post-condition-toggle id="btnShowPostconditions" class="animationButton" type="button" style="left:1300px;width:170px;" ng-style="{'top':postConditionToggleButton.TopPos}" ng-click="togglePostconditionPanel()">{{postConditionToggleButton.Name}}</button>
+            <div class="modelInputPanelInactive" style="left:925px;" ng-style="{'height':postConditionPanel.HeightPos,'top':postConditionPanel.TopPos,'border':postConditionBorder}">
+                <div style="text-align:center;font-weight:bold;font-size:20px;"> Post Conditions</div>
+                <table class="standardTable" style="margin-top:25px;">
+                    <thead>
+                        <tr>
+                            <th class="staffingLabel" style="margin-left:5px;width:150px;">Activity</th>
+                            <th class="staffingLabel" style="width:150px;">Dependency</th>
+                            <th class="staffingLabel" style="width:100px;">Completion %</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div style="height:350px;overflow:auto">
+                    <!--    Loop over activiites for post conditions-->
+                    <div ng-repeat="activity in Activities" ng-init="activityIndex = $index">
+                        <div ng-class-even="'evenRow'" ng-class-odd="'oddRow'">
+                            <div class="staffingLabel" style="margin-left:10px;width:165px;">{{activity.Name}}</div>
+                            <div style="display:inline-block;width:310px;">
+                                <!--    loop over post conditions for the current activity-->
+                                <div style="margin-top:5px;" ng-repeat="condition in Postconditions[$index]">
+
+                                    <div ng-if="condition.CompletionPercentage != undefined" style="display:inline-block;width:150px;">{{condition.Name}}</div>
+                                    <div ng-if="condition.CompletionPercentage != undefined" style="display:inline-block;margin-left:10px;width:60px"><input type="number" style="width:60px;text-align:right" ng-model="condition.CompletionPercentage" ng-blur="updatePostConditionHandler(activityIndex,$index)"  /></div>
+                                    <div ng-if="condition.CompletionPercentage != undefined" style="display:inline-block;margin-left:40px;width:30px"><button class="cellButton" ng-click="deletePostCondition(activity.ID,$index)">Delete</button></div>
+                                </div>
+                                <div style="margin-top:5px;">
+                                    <div style="display:inline-block;width:150px;"><select type="combobox" style="width:150px" ng-model="newPostCondition[$index].Dependency" ng-options="activity2.Name for activity2 in Activities"></select></div>
+
+                                    <div style="display:inline-block;margin-left:10px;width:60px;"><input type="number" style="width:60px;text-align:right" ng-model="newPostCondition[$index].CompletionPercentage" /></div>
+                                    <div style="display:inline-block;margin-left:40px;width:30px"><button ng-disabled="newPostCondition[$index].Dependency == undefined || newPostCondition[$index].CompletionPercentage == undefined" class="cellButton" ng-click="addPostCondition($index)">Add</button></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="wizardRow" style="background-color:lightblue;"><button class="refreshButton" style="float:left;margin-left:225px" ng-click="updatePage();">Update</button></div>
+            </div>
+
+            <!--    Display the staffing control panel-->
+            <button id="btnShowStaffing" type="button" class="animationButton" style="top:20px;left:1300px;width:170px;" ng-style="{'top':staffingToggleButton.TopPos}" ng-click="toggleStaffingPanel()">{{staffingToggleButton.Name}}</button>
+            <div id="testFrame" class="modelInputPanelInactive" ng-style="{'left':staffingPanel.LeftPos,'top':editPanelPositions[2].Top,'height':staffingPanel.HeightPos,'border':staffingBorder}">
+                <div style="background-color:transparent;margin-top:0px;padding-top:0px;">
+                    <table class="standardTable" style="margin-top:25px;">
+                        <thead>
+                            <tr>
+                                <th class="staffingLabel" style="margin-left:5px;width:400px;">Role</th>
+                                <th class="staffingLabel" style="width:100px;">Count</th>
+                            </tr>
+                        </thead>
+                    </table>
+                        <div id="dataContainer" style="margin-top:5px;width:550px;background-color:transparent;overflow:auto" ng-repeat="staff in Staff">
+                            <div ng-class-even="'evenRow'" ng-class-odd="'oddRow'" >
+                                <div style="display:inline-block;margin-left:10px;width:400px;">{{staff.RoleName}}</div>
+                                <div style="display:inline-block;margin-left:30px;width:60px"><input type="number" style="width:60px;text-align:right" ng-model="staff.Count" /></div>
+                            </div>
+                    </div>
+                    </div>
+                <button class="basicButton" style="margin-left:225px" ng-click="updatePage();">Update</button>
+                <div id="timerBarRow" class="wizardRow">
+                    <div id="statusLabelContainer" class="labelColumn" style="margin-left:10px;">
+                        <div>Status</div>
+                    </div>
+                    <div id="statusDisplayInput" class="inputColumn" style="left:70px;">
+                        <div id="timerBar" class="timerBar"></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <script src="../Scripts/angular.min.js"></script>
+        <script src="../Scripts/angular-route.min.js"></script>
+        <script src="../Scripts/CustomModelModule.js"></script>
+    <script src="../Scripts/aStatusBar.js"></script>
+</body>
+</html>
+
+<script type="text/javascript">
+
+    var drawLineChart = function () {
+        var b_canvas = document.getElementById("lineChartCanvas");
+
+        var chart = new LineChart(b_canvas, 0, 0, 890, 300);
+        // initialize the axis data
+        // Initialize a temp array for the x axis
+        var tempArray = [];
+        var tempArray1 = [];
+        var tempArray2 = [];
+        var tempArray3 = [];
+        var tempArray4 = [];
+        var tempArray5 = [];
+        var tempArray6 = [];
+
+        var index = 0;
+        while (index < 60) {
+            tempArray.push(index);
+            index++;
+        };
+        chart.AxisData = tempArray;
+
+        index = 0;
+        while (index < 60) {
+            if (index < 11) {
+                tempArray1.push(2);
+            }
+            else if (index >= 11 && index < 33) {
+                tempArray1.push(0);
+            }
+            else {
+                tempArray1.push(0);
+            }
+            index++;
+        };
+        chart.AddData(tempArray1);
+        index = 0;
+        while (index < 60) {
+            if (index < 8) {
+                tempArray2.push(0);
+            }
+            else if (index >= 8 && index < 33) {
+                tempArray2.push(2.5);
+            }
+            else {
+                tempArray2.push(0);
+            }
+            index++;
+        };
+        chart.AddData(tempArray2);
+        // Add teh validation data
+        index = 0;
+        while (index < 60) {
+            if (index < 14) {
+                tempArray3.push(0);
+            }
+            else if (index >= 14 && index < 32) {
+                tempArray3.push(1.5);
+            }
+            else if (index >= 32 && index < 38) {
+                tempArray3.push(2);
+            }
+            else {
+                tempArray3.push(0);
+            }
+            index++;
+        };
+        chart.AddData(tempArray3);
+
+        index = 0;
+        while (index < 60) {
+            if (index < 6) {
+                tempArray4.push(0);
+            }
+            else if (index >= 6 && index < 25) {
+                tempArray4.push(1);
+            }
+            else {
+                tempArray4.push(0);
+            }
+            index++;
+        };
+        chart.AddData(tempArray4);
+
+        index = 0;
+        while (index < 60) {
+            if (index < 32) {
+                tempArray5.push(0);
+            }
+            else if (index >= 32 && index < 45) {
+                tempArray5.push(1);
+            }
+            else {
+                tempArray5.push(0);
+            }
+            index++;
+        };
+        chart.AddData(tempArray5);
+
+        index = 0;
+        while (index < 60) {
+            if (index < 45) {
+                tempArray6.push(0);
+            }
+            else if (index >= 45 && index < 49) {
+                tempArray6.push(2);
+            }
+            else {
+                tempArray6.push(0);
+            }
+            index++;
+        };
+        chart.AddData(tempArray6);
+
+        //        chart.AddData(new Array(0, 0, 2.5, 2.5, 2.5, 2.5, 2.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+        chart.Draw();
+    }
+</script>

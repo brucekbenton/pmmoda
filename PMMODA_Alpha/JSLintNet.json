@@ -1,0 +1,18 @@
+﻿{
+  "version": "2.0.4",
+  "ignore": [
+    "\\Scripts\\ActivityMap.js",
+    "\\Scripts\\ActivityMapModule.js",
+    "\\Scripts\\ai.0.15.0-build46802.js",
+    "\\Scripts\\ai.0.15.0-build46802.min.js",
+    "\\Scripts\\angular-mocks.js",
+    "\\Scripts\\angular-route.js",
+    "\\Scripts\\angular-route.min.js",
+    "\\Scripts\\angular.js",
+    "\\Scripts\\angular.min.js",
+    "\\Scripts\\bootstrap.js",
+    "\\Scripts\\bootstrap.min.js",
+    "\\Scripts\\"
+  ],
+  "globalVariables": []
+}

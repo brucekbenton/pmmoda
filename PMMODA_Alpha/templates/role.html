@@ -1,0 +1,20 @@
+﻿<div class="viewContainer">
+    <div class="pageHeader">Active Project Roles<button class="wizardQuitButton" type="button">Quit</button></div>
+    <div class="wizardBox" >
+        <div class="repeatRow">
+            <div class="nameColHeader">Name</div>
+            <div class="descriptionColHeader">Description </div>
+        </div>
+        <div ng-repeat="role in $root.Roles">
+            <div class="repeatRow">
+                <div><input type="checkbox" class="activeCol" ng-checked="{{role.isActive}}" /></div>
+                <div class="nameCol">{{role.Name}}</div>
+                <div class="descriptionCol">{{role.Description}} </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="wizardRow" style="margin-left:200px;float:left;">
+        <button prev-click class="wizardButton">Previous</button><button next-click data="currentStage" class="wizardButton">Next</button>
+    </div>
+</div>

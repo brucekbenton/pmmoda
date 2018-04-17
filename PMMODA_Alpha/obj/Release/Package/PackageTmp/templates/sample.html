@@ -1,0 +1,55 @@
+﻿
+<div class="viewContainer" style="width:975px;height:700px;">
+
+    <div class="pageHeader">Activity Management</div>
+
+    <div display-table id="testBody" ng-controller="Activities">
+        <div id="name" class="wizardRow" >
+            <div style="display:inline-block;font-weight:bold;width:125px;">Project Team:</div> 
+            <div style="display:inline-block;margin-left:5px;width:325px;">
+                <select style="width:325px;" type="combobox" ng-model="currentProjectTeam" ng-options="team.Name for team in ProjectTeams" ng-change="initializeActivityData()"></select>
+            </div>
+        </div>
+        <div style="margin-left:10px;border:solid 1px black;border-bottom:0px;margin-top:25px;width:830px;height:25px;">
+            <table class="standardTable">
+                <thead>
+                    <tr>
+                        <th style="width:50px;">Active</th>
+                        <th class="tblNameCol">Activity</th>
+                        <th class="tblDescCol">Description</th>
+                        <th style="width:225px;">Role</th>
+                        <th style="width:100px;">Action</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <button class="cellButton" style="float:right;margin-right:50px;" ng-click="addActivity()" ng-disabled="editMode">Add</button>
+        <div scroll value="ReferenceActivities" id="tableBody" style="margin-left:10px;border:solid 1px black;border-top:0px; margin-top:0px;width:830px;height:270px;overflow:auto" on>
+            <table class="standardTable">
+                <tbody style="margin-left:60px;width:500px;height:25px;" ng-repeat="activity in ReferenceActivities">
+                    <tr ng-if="$index != editRow">
+                        <td style="width:50px;vertical-align:top;"><input type="checkbox" class="activeCol" ng-disabled="true" ng-checked="{{activity.isActive}}" /></td>
+                        <td class="tblNameCol">{{activity.Name}}</td>
+                        <td class="tblDescCol">{{activity.Description}}</td>
+                        <td style="width:225px;height:25px;vertical-align:top;">{{getRoleName(activity.Role)}}</td>
+                        <td class="tblNameCol" style="width:80px;vertical-align:top"><button type="button" class="cellButton" ng-disabled="editMode" ng-click="setEditRow($index)">Edit</button></td>
+                    </tr>
+                    <tr ng-if="$index == editRow">
+                        <td style="width:50px;vertical-align:top;"><input type="checkbox" class="activeCol" ng-checked="{{activity.isActive}}" ng-model="activity.isActive"/></td>
+                        <td class="tblNameCol" style="vertical-align:top"><input type="text" style="width:140px;height:25px" ng-model="activity.Name" /></td>
+                        <td class="tblDescCol" style="vertical-align:top"><textarea type="text" style="height:45px; width:300px; overflow:auto" ng-model="activity.Description"></textarea></td>
+                        <td style="width:225px;height:25px;vertical-align:top;"><select type="combobox" style="width:225px;" ng-model="activity.Role" ng-options="role.ID as role.Name for role in ReferenceRoles"></select></td>
+                        <td class="tblNameCol" style="width:80px;vertical-align:top;"><button type="button" class="cellButton" ng-click="saveRow($index)">Save</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="navBar" style="margin-top:25px;width:100%;margin-left:40%;">
+        <p>
+            <button type="Button" class="cellButton" onclick="closeFormHandler()">Close</button>
+        </p>
+    </div>
+
+</div>
+

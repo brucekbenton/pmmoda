@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+
+<html ng-app="wizard">
+<head>
+    <base href="/" />
+    <meta charset="utf-8" />
+    <title>Wizard Testbed</title>
+    <link href="Content/StyleSheet1.css" rel="stylesheet" />
+</head>
+<body>
+    <div ng-controller="Navigation">
+
+        <hr />
+
+        <div class="viewFrame">
+            <div ng-view class="viewContainer"></div>
+            <!--
+            <div ng-repeat="stage in Stages" style="margin-left:30px;margin-top:25px;">
+                <div my-click id={{stage.ID}} class="stageUnselected" stage="stage" data="currentStage"><span style="display:table-cell;vertical-align:middle">{{stage.Name}}</span></div>
+                <div ng-if="stage.ID != Stages.length" style="float:left;margin-top:25px;margin-left:0px;width:60px;height:3px;background-color:rgba(255,165,0,.4);"></div>
+            </div>
+                -->
+        </div>
+
+
+        <hr />
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="Scripts/angular.min.js"></script>
+    <script src="Scripts/angular-route.min.js"></script>
+    <script src="Scripts/Wizard.js"></script>
+    <script src="Scripts/organization.js"></script>
+    <script src="Scripts/statusBar.js"></script>
+    <script src="Scripts/homePage.js"></script>
+    <script src="Scripts/CommonUtilities.js"></script>
+    <script src="Scripts/CommonConstants.js"></script>
+    <script src="Scripts/Response.js"></script>
+    <script src="Scripts/cookieManagement.js"></script>
+</body>
+</html>

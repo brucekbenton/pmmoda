@@ -1,0 +1,83 @@
+﻿ <div class="viewContainer" id="testBody" ng-controller="Navigation" style="width:800px;height:550px;">Status Bar: {{statusVisible}}
+
+
+    <div>
+
+        <div class="viewContainer" ng-if="inputScreen" style="background-color:transparent">
+            <div class="pageHeader">Project Team<button class="wizardQuitButton" type="button" onclick="closeProjectTeamWizardHandler()">Quit</button></div>
+            <div class="wizardBox" style="display:inline-block;">
+                <div id="name" class="wizardRow" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()">
+                    Name: <input type="text" class="inputColumn" style="left:220px;width:320px;" ng-model="$parent.projectName" />
+                </div>
+                <div id="description" class="wizardRow" style="height:35px;" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()">
+                    Description: <textarea type="text" class="inputColumn" style="height:50px; width:318px; font-family:'Segoe UI';left:220px;" ng-model="$parent.projectDescription"></textarea>
+                </div>
+                <br />
+                <div id="Activity" class="wizardRow" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()">
+                    Activity Model: <select type="combobox" class="inputColumn" style="left:220px;width:325px;" ng-model="$parent.currentStaffModel" ng-options="staffModel.Name + ' ( ' + staffModel.Description + ')'  for staffModel in StaffingModels"></select>
+                </div>
+                <div id="Application" class="wizardRow" ng-mouseover="showHelp()" ng-mouseleave="hideHelp()">
+                    Application Type: <select type="combobox" class="inputColumn" style="left:220px;width:325px;" ng-model="$parent.currentTemplate" ng-options="template.Name for template in ApplicationTypes"></select>
+                </div>
+            </div>
+            <div ng-class="helpBoxStyle">
+                <div><div class="helpName">{{topicName}}</div> <div class="helpDescription">{{topicDescription}}</div></div>
+            </div>
+
+            <div class="wizardRow" style="margin-left:285px;float:left;">
+                <button  data="currentStage" class="wizardButton" ng-click="nextScreen()">Next</button>
+
+            </div>
+        </div>
+
+    </div>
+
+     <div class="viewContainer" ng-if="summaryScreen" style="background-color:transparent">
+         <div class="pageHeader">Finished<button class="wizardQuitButton" type="button" ng-click="exitWizard()">Quit</button></div>
+         <div class="wizardBox">
+             <div style="margin-left:10px;">
+                 <b>Your have defined your new Project Team as described below: </b>
+             </div>
+             <div style="margin-left:40px;">
+                 <b>Project Team Name: </b>{{projectName}}
+             </div>
+             <div style="margin-left:40px;">
+                 <b>Project Team Name:</b> {{projectDescription}}
+             </div>
+             <div style="margin-left:40px;">
+                 <b>Activity Model:</b> {{currentStaffModel.Name}}
+             </div>
+             <div style="margin-left:40px;">
+                 <b>Application Type:</b> {{currentTemplate.Name}}
+             </div>
+             <div style="margin-left:40px;">
+                 <b>Functional Activity Map:</b>
+             </div>
+             <div ng-class-even="'evenRepeatRow'" ng-class-odd="'oddRepeatRow'" style="margin-left:60px;width:500px;height:25px;" ng-repeat="activity in ReferenceActivities">
+                 <div class="nameCol">{{activity.Name}}</div>
+                 <div class="descriptionCol" style="width:300px;height:25px">{{activity.RoleName}} </div>
+             </div>
+             <div style="margin-left:40px;">
+                 <b>Standard Component:</b>
+             </div>
+             <div class="repeatRow" style="margin-left:60px;width:500px;font-weight:bold">
+                 <div class="nameCol">Component</div>
+                 <div class="descriptionCol" style="width:300px;">Description </div>
+
+             </div>
+             <div ng-class-even="'evenRepeatRow'" ng-class-odd="'oddRepeatRow'" style="margin-left:60px;width:500px;height:40px;" ng-repeat="component in ReferenceComponents">
+                 <div class="nameCol">{{component.Name}}</div>
+                 <div class="descriptionCol" style="width:300px;height:40px">{{component.Description}} </div>
+             </div>
+
+
+         </div>
+         <div class="wizardRow" style="margin-left:200px;float:left;">
+             <button  class="wizardButton" ng-click="previousScreen()">Previous</button><button data="currentStage" class="wizardButton" ng-disabled="saveDisabled" ng-click="saveNewRecord()">Save</button>
+         </div>
+
+         <div my-status ng-if="statusVisible" class="wizardRow" style="clear:both;text-align:center;margin-top:15px;">
+         </div>
+
+     </div>
+</div>

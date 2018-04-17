@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+</head>
+<body onload="drawLineChart()">
+    <div>
+        <canvas id="lineChartCanvas" style="position:absolute;border:solid 0px black;top:100px;left:0px;background-color:pink;" width=800 height=300></canvas>
+    </div>
+
+</body>
+</html>
+
+<script type="text/javascript">
+
+    var drawLineChart = function () {
+        var b_canvas = document.getElementById("lineChartCanvas");
+        var context = b_canvas.getContext("2d");
+        context.scale(1, 1);
+        context.strokeStyle = "black";
+        context.strokeRect(10, 10, 500, 280)
+
+        //        var chart = new LineChart(b_canvas, 800, 0, 500, 400);
+        //        chart.Draw();
+    }
+
+
+</script>

@@ -1,0 +1,86 @@
+﻿<div class="viewContainer" style="width:655px;height:650px;">
+
+    <div class="pageHeader">Project Team Management</div>
+
+    <div display-table id="testBody" ng-controller="ProjectTeams">
+
+        <div id="name" class="wizardRow" ng-if="SuperUser">
+            <div style="display:inline-block;font-weight:bold;width:125px;">Company:</div>
+            <div style="display:inline-block;margin-left:5px;width:325px;">
+                <select style="width:325px;" type="combobox" ng-model="currentCompany" ng-options="company.Name for company in Companies" ng-change="initializeProjectTeams(currentCompany)"></select>
+            </div>
+        </div>
+        <div id="name" class="wizardRow">
+            <div style="display:inline-block;font-weight:bold;width:125px;">Project Team:</div>
+            <div style="display:inline-block;margin-left:5px;width:325px;">
+                <select style="width:325px;" type="combobox" ng-model="currentProjectTeam" ng-options="team.Name for team in ProjectTeams" ng-enable="companySelected" ng-change="populateActiveRoles()"></select>
+            </div>
+        </div>
+
+        <div  class="wizardRow">
+            <p>Use this tool to estimate overhead: <a target='_Blank' href="http://www.trunbe.com/OverheadCalculator.htm">Overhead Calculator</a></p>
+        </div>
+
+
+        <div id="name" class="wizardRow">
+            <div style="display:inline-block;font-weight:bold;width:125px;vertical-align:top">Description:</div>
+            <div style="display:inline-block;margin-left:5px;width:325px;">
+                <textarea style="width:325px;height:45px" ng-model="currentProjectTeam.Description"  ng-change="initializeActivityData()"></textarea>
+            </div>
+        </div>
+
+
+        <div class="tableContainer" style="width:500px;height:250px;">
+            <table class="standardTable">
+                <thead>
+                    <tr>
+                        <th style="width:50px;">Active</th>
+                        <th style="width:250px;">Role</th>
+                        <th style="width:75px;">Overhead</th>
+                        <th style="width:75px;">Bill Rate ($/hour)</th>
+                        <th style="width:100px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="role in ActiveRoles">
+                    <tr ng-if="$index != editRow" style="height:25px;">
+                        <td style="width:50px;vertical-align:top;"><input type="checkbox" class="activeCol" ng-model="role.isActive" /></td>
+                        <td style="width:250px;" >{{role.Name}}</td>
+                        <td style="width:75px;">{{role.Overhead}}</td>
+                        <td style="width:75px;">{{role.BillRate | currency}}</td>
+                        <td class="tblNameCol" style="width:80px;vertical-align:top"><button type="button" class="cellButton" ng-disabled="editMode" ng-click="setEditRow($index)">Edit</button></td>
+                   </tr>
+                    <tr ng-if="$index == editRow">
+                        <td style="width:50px;vertical-align:top;"><input type="checkbox" class="activeCol"  ng-model="role.isActive" /></td>
+                        <td  style="width:250px;" >{{role.Name}}</td>
+                        <td  style="width:75px;vertical-align:top"><input type="number" style="height:25px; width:50px; " ng-model="role.Overhead"></input></td>
+                        <td style="width:75px;vertical-align:top"><input type="number" style="height:25px; width:50px; " ng-model="role.BillRate"></input></td>
+                        <td class="tblNameCol" style="width:80px;vertical-align:top;"><button type="button" class="cellButton" ng-click="saveRow($index)">Save</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="name" class="wizardRow">
+            <div style="display:inline-block;font-weight:bold;width:125px;">
+                <input type="checkbox" class="activeCol" ng-model="currentProjectTeam.isActive" /> Active
+            </div>
+        </div>
+
+
+        <div class="wizardRow">
+            <div style="display:inline-block;font-weight:bold;width:125px;">Work Day:</div>
+            <div style="display:inline-block;margin-left:5px;width:175px;">
+                <input typeof="input" style="width:35px;" ng-model="currentProjectTeam.WorkDay">(Hours)
+            </div>
+        </div>
+
+        <div class="navBar" style="margin-top:25px;width:100%;margin-left:40%;">
+            <p>
+                <button type="Button" class="cellButton" ng-click="updateProjectTeamHandler()">Save</button>
+                <button type="Button" class="cellButton" onclick="closeProjectTeamFormHandler()">Close</button>
+            </p>
+        </div>
+
+
+    </div>
+</div>

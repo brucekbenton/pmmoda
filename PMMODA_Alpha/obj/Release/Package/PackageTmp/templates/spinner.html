@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+
+
+
+</head>
+<body onload="loadSpinner()">
+    <div id="testFrame" style="height:150px;width:400px;background-color:pink">
+
+        <input id="spinner" />
+
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+
+    function loadSpinner() {
+        //        alert("test function");
+        $('#spinner').spinner({ min: 2, max: 200, step: 1 }).css({'width':'50px'}).val(1).appendTo("#estFrame");
+    }
+</script>

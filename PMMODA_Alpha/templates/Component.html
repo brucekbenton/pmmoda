@@ -1,0 +1,20 @@
+﻿<div class="viewContainer">
+    <div class="pageHeader">Active Project Components<button class="wizardQuitButton" type="button">Quit</button></div>
+    <div class="wizardBox">
+        <div class="repeatRow">
+            <div class="nameColHeader">Name</div>
+            <div class="descriptionColHeader">Description </div>
+        </div>
+        <div ng-repeat="component in Components">
+            <div class="repeatRow">
+                <div><input type="checkbox" class="activeCol" ng-checked="{{component.isActive}}" /></div>
+                <div class="nameCol">{{component.Name}}</div>
+                <div class="descriptionCol">{{component.Description}} </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="wizardRow" style="margin-left:200px;float:left;">
+        <button prev-click class="wizardButton">Previous</button><button next-click data="currentStage" class="wizardButton">Next</button>
+    </div>
+</div>

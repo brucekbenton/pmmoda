@@ -1,0 +1,37 @@
+﻿<div class="viewContainer" style="width:975px;height:700px;">
+
+    <div class="pageHeader">Activity Map</div>
+
+    <div display-table id="activityMap" ng-controller="ActivityMap">
+        <div id="name" class="wizardRow">
+            <div style="display:inline-block;font-weight:bold;width:125px;">Project Team:</div>
+            <div style="display:inline-block;margin-left:5px;width:325px;">
+                <select style="width:325px;" type="combobox" ng-model="currentProjectTeam" ng-options="team.Name for team in ProjectTeams" ng-change="initializeActivityData()"></select>
+            </div>
+        </div>
+        <div style="margin-left:10px;border:solid 1px black;margin-top:25px;width:830px;height:300px;">
+            <table class="standardTable">
+                <thead>
+                    <tr >
+                        <th style="width:100px;" ng-if="ReferenceActivities.length>0">Component</th>
+                        <th style="width:100px;" ng-repeat="activity in ReferenceActivities">{{activity.Name}}</th>
+                    </tr>
+                </thead>
+                <tbody >
+                    <tr ng-repeat="component in ReferenceComponents">
+                        <td class="tblNameCol">{{component.Name}}</td>
+                        <td style="width:100px;text-align:center;vertical-align:top;" ng-repeat="activity in ReferenceActivities"><input type="checkbox" ng-checked="{{componentActivityStatus(activity.ID,component.ID)}}" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button type="button" class="cellButton" ng-click="checkData()">test</button>
+    </div>
+    <div class="navBar" style="margin-top:25px;width:100%;margin-left:40%;">
+        <p>
+            <button type="Button" class="cellButton" onclick="closeActivityMapHandler()">Close</button>
+        </p>
+    </div>
+
+</div>
+

@@ -1,0 +1,2216 @@
+﻿body {
+    font-family:'Segoe UI';
+    font-size:14px;
+}
+
+.bodyStyle {
+    background-color:darkgray;
+}
+
+/*      Project Team Wizard styles*/
+/* Declare the style for the Wizard top level container dialog*/
+.viewFrame {
+    margin-left:10px;
+    font-family:'Segoe UI';
+    font-weight:normal;
+    background-color:white;
+    box-shadow:rgba(88,88,88,.5) 10px 10px;
+    border-radius:10px;
+    border-style:solid;
+    border-width:2px;
+    color:black;
+    width:800px;
+    height:450px;
+
+}
+
+.popupFrame {
+    background-color:white;
+    box-shadow:rgba(88,88,88,.5) 10px 10px;
+    border-radius:10px;
+    border-style:solid;
+    border-width:2px;
+    color:black;
+    position:absolute;
+    top:75px;
+    left:100px;
+}
+
+.popupForm {
+    background-color:white;
+    box-shadow:rgba(88,88,88,.5) 10px 10px;
+    border-radius:10px;
+    border-style:solid;
+    border-width:2px;
+    color:black;
+    position:absolute;    
+}
+
+
+.viewContainer {
+    margin-left:10px;
+    font-family:'Segoe UI';
+    font-weight:normal;
+    width:770px;
+    height:450px;
+    background-color:transparent;
+}
+
+
+.stageUnselected{
+    display:table;
+/*  background-color:#98AFC7; */  
+    background-color:rgba(255,165,0,.4);
+    color:black;
+    text-align:center;
+    position:relative;
+    float:left;
+    width:100px;
+    height:60px;
+    border-radius:10px
+}
+
+.stageSelected{
+    display:table;
+/*    background-color:RoyalBlue;   */
+    background-color:orange;
+    color:white;
+    text-align:center;
+    position:relative;
+    float:left;
+    width:100px;
+    height:60px;
+    border-radius:10px
+}
+
+.stageActive{
+    display:table;
+/*    background-color:RoyalBlue; */
+    background-color:orange;
+    box-shadow:rgba(88,88,88,.5) 5px 5px;
+    color:white;
+    text-align:center;
+    position:relative;
+    float:left;
+    width:100px;
+    height:60px;
+    border-radius:10px
+}
+
+.viewLink {
+    text-decoration:none;
+    color:white;
+}
+
+.wizardBox{
+    float:left;
+    margin-left:10px;
+    margin-top:25px;
+    border:solid 1px black;
+    width:600px;
+    height:350px;
+    overflow:auto;
+}
+
+@keyframes fadeIn {
+    from {background-color:white;border-color:white;}
+    to {background-color:orange;border-color:black}
+}
+
+@keyframes fadeOut {
+    from {background-color:orange;border-color:black;}
+    to {background-color:white;border-color:white}
+}
+
+@keyframes showEffortReports{
+    from {left:1475px;width:0px;border:0px}
+    to {left:600px;width:875px;border:1px}
+}
+
+@keyframes hideEffortReports{
+    from {left:600px;width:875px;border:1px;}
+    to {left:1475px;width:0px;border:0px;}
+}
+
+.reportInactive{
+    position:absolute;
+    left:1475px;
+    top:125px;
+    width:0px;
+    height:600px;
+    border:solid 0px black;
+    background-color:white;
+    overflow:hidden;
+    animation-name: hideEffortReports;
+    animation-duration: .2s;
+}
+
+
+.reportActive{
+    position:absolute;
+    left:600px;
+    width:875px;
+    top:125px;
+    height:600px;
+    border:solid 1px black;
+    background-color:white;
+    box-shadow:rgba(88,88,88,.5) 10px 10px;
+    overflow:hidden;
+    animation-name: showEffortReports;
+    animation-duration: .2s;
+}
+
+.helpBox{
+    display:inline-block; 
+    border:solid black 1px;
+    width:150px;
+    height:300px;
+    float:left;
+    margin-top:25px;
+    border-left:0px;
+/*    background-color:rgba(242,242,242,1) */
+    background-color:orange; 
+    color:white;
+    animation-name: fadeIn;
+    animation-duration: .2s;
+}
+
+.helpBoxActive{
+    display:inline-block; 
+    border:solid black 1px;
+    width:150px;
+    height:300px;
+    float:left;
+    margin-top:25px;
+    border-left:0px;
+    background-color:orange; 
+    color:white;
+    animation-name: fadeIn;
+    animation-duration: .2s;
+}
+
+.helpBoxHidden{
+    display:inline-block; 
+    border:solid white 1px;
+    width:150px;
+    height:300px;
+    float:left;
+    margin-top:25px;
+    border-left:0px;
+    background-color:white; 
+    color:white;
+    animation-name: fadeOut;
+    animation-duration: .2s;
+}
+
+
+
+.helpName{
+    float:left;
+    width:145px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.helpDescription{
+    float:left;
+    width:145px;
+    margin-left:5px;
+    margin-right:5px;
+}
+
+.tableContainer{
+    margin-left:10px;
+    border:solid 1px black;
+    margin-top:25px;
+    overflow:auto;
+}
+
+
+    .standardTable {
+        border: 1px white solid;
+    }
+
+        .standardTable thead th {
+            background-color: orange;
+            color: white;
+            font-weight: bold;
+            border: 1px white solid;
+            margin-left:5px;
+            padding-left:5px;
+        }
+
+        .standardTable td {
+            height:30px;
+            padding-left:5px;
+        }
+
+.tblNameCol {
+        width: 150px;
+        background-color: transparent;
+        margin-left:5px;
+            padding-left:5px;
+        vertical-align:top;
+    }
+
+    .tblDescCol {
+        width: 300px;
+        background-color: transparent;
+        margin-left:5px;
+            padding-left:5px;
+        vertical-align:top;
+    }
+    .tblActionCol {
+        position: relative;
+        width: 70px;
+        background-color: transparent;
+        text-align: center;
+        margin-left:5px;
+            padding-left:5px;
+    }
+
+
+
+.wizardRow{
+    margin-left:10px;
+    margin-top:15px;
+}
+
+.tableRow{
+    margin-left:10px;
+    margin-top:5px;
+}
+
+.repeatRow{
+    margin-left:10px;
+    width:590px;
+    height:25px;
+    overflow-y:auto;
+    margin-top:5px;
+}
+
+.oddRepeatRow{
+    margin-left:10px;
+    width:590px;
+    height:25px;
+    overflow-y:auto;
+    margin-top:5px;
+    background-color:white;
+}
+
+.evenRepeatRow{
+    margin-left:10px;
+    width:590px;
+    height:25px;
+    overflow-y:auto;
+    margin-top:5px;
+    background-color:rgba(255,165,0,.4);
+}
+
+
+.requiredFlag{
+    font-weight:bold;
+    color:red;
+    width:5px;
+}
+
+/*  Define the column styles for the Wizrd Role display*/
+
+.activeCol{
+    float:left;
+    margin-left:0px;
+    width:20px;
+}
+
+.nameCol{
+    float:left;
+    margin-left:10px;
+    width:150px;
+}
+
+.nameColHeader{
+    float:left;
+    margin-left:43px;
+    width:150px;
+    font-weight:bold;
+}
+
+.descriptionCol{
+    float:left;
+    margin-left:10px;
+    width:360px;
+}
+
+.descriptionColHeader{
+    float:left;
+    margin-left:10px;
+    width:370px;
+    font-weight:bold;
+}
+
+
+.frameContainer {
+    width:100%;
+    height:1000px;
+    left:0px;
+    margin:0px;
+    padding:0px;
+    background-color:darkgray;
+}
+
+.sprintStatusFrame {
+    background-color:white;
+    border-radius:20px;
+    width:98%; 
+    margin:1%;
+    height:850px;
+    clear:both;
+    overflow:hidden;
+}
+
+
+.sprintStatusContainer {
+    width:1200px;
+    height:50px;
+    margin-left:50px;
+    border-style:solid;
+    border-width:1px;
+    border-color:black;
+    background-color:white;
+    border-radius:10px;
+}
+
+
+.frameStyle {
+    background-color:yellow;
+    border-radius:20px;
+    width:98%;
+    margin:10px;
+    height:650px;
+    clear:both;
+}
+/* Declare a styel to contain the standard 2 pane view  */
+.twoPaneContainer{
+    width:100%;
+    height:500px;
+    background-color:lightblue;
+
+    }
+
+.leftVerticalPane {
+    float:left;
+/*    left:20px;        */
+/*    top:15px;         */
+    background-color:pink;
+    border-radius:20px;
+    width:200px;
+    margin:0px;
+    height:450px;
+/*    clear:both; */
+}
+
+.leftListboxPane {
+    float:left;
+    border-right:5px solid;
+    border-color:lightgray;
+    width:200px;
+    margin-left:10px;
+    height:413px;
+/*    background-color:RGB(245,245,220);*/
+}
+
+
+.secondaryRemainingPane {
+    margin-left:211px;
+    height:385px;
+    background-color:transparent;
+    
+}
+
+.listBoxHeader {
+    color: black;
+    text-align:center;
+    margin:10px;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:bold;
+}
+
+/* Declare the styles for the help content*/
+.helpBody {
+    margin-top:10px;
+    margin-left:20px;
+    margin-right:20px;
+    font-family:'Segoe UI';
+    font-size:18px;
+}
+
+/* Declare teh styles for the staffing functionality*/
+.staffingContainer{
+    margin-left:125px;
+    margin-top:15px;
+    border:solid 1px;
+    width:277px;
+    height:150px;
+    overflow:scroll;
+}
+
+.staffingLabel{
+    float:left;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:bold;
+}
+
+.staffingEntry{
+    float:left;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:normal;
+}
+
+/* Declare styles for the permissions page*/
+.permissionTable {
+    float:left;
+    position:relative;
+}
+
+.permissionTable thead{
+    background-color:orange;
+    color:white;
+    border-color:white;
+    border-top:solid 2px White ;
+    border-bottom:solid 2px white;
+    border-collapse:collapse;
+    height:50px;
+}
+.permissionTable thead th{
+    padding-left:5px;
+    border-left:solid 1px white;
+    border-right:solid 1px white;
+}
+
+.permissionTable tbody tr:nth-child(even) {
+    background-color: #F2F2F2;
+}
+
+.usernameColumn{
+    width:200px;
+}
+
+.rolecolumn{
+    width:100px;
+}
+
+/* Declare styles for the Company Admin page*/
+.formRow{
+    position:relative;
+    width:100%;
+    min-height:30px;
+    background-color:transparent;
+    margin-top:10px;
+}
+
+.labelColumn{
+    position:absolute;
+    left:10px;
+    min-height:25px;
+    min-width:100px;
+    font-weight:bold;
+}
+
+.inputColumn{
+    position:absolute;
+    left:125px;
+    min-width:250px;
+    height:1.5em;   
+}
+
+.basicComboBox{
+    float:left;
+    width:250px;
+}
+
+.basicCheckBox{
+    float:left;
+    padding-left:30px;
+    width:15px;
+    height:15px; 
+}
+
+.formTextBox {
+    float:left;
+    margin-left:0px;
+    width:250px;
+    background-color:transparent;
+}
+
+.disabledFormTextBox {
+    float:left;
+    margin-left:0px;
+    min-width:250px;
+    background-color:#F2F2F2;
+}
+
+
+.formSeparator{
+    float:left;
+    width:96%;
+    min-height:2px;
+    margin-left:2%;
+    border-bottom:solid 2px Gray;
+}
+
+/* declare the styles for the timeline page*/
+.timelineContainer{
+    position:absolute;
+    border:solid 1px;
+    left:200px;
+    width:800px;
+    height:50px;
+    background: linear-gradient(yellowgreen,white,yellowgreen);
+}
+
+.timelineLabel{
+    position:absolute;
+    left:200px;
+    font-family: 'Segoe UI';
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.weekLabel{
+    position:absolute;
+    position:absolute;
+    font-family: 'Segoe UI';
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.refreshButton{
+    float:right;
+    width:75px;
+    height:25px;
+    background-color:orange;
+    color:white;
+    margin-top:15px;
+    margin-right:50px;
+    font-weight:bold;
+    border:solid 1px lightgray;
+
+}
+
+.basicButton{
+    width:75px;
+    height:25px;
+    background-color:orange;
+    color:white;
+    margin-top:15px;
+    font-weight:bold;
+    border:solid 1px lightgray;
+
+}
+
+/* Declare a style for the horizontal rule lines in the utilization graph */
+.graphRule{
+    position:absolute;
+    margin-top:0px;
+    padding-top:0px;
+    border-color:lightgray;
+}
+
+.timelineOverview{
+    position:absolute;
+    width:300px;
+    height:300px;
+    border:3px solid gray;
+    font-family: 'Segoe UI';
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.controlPanel{
+    position:absolute;
+    width:300px;
+    height:300px;
+    border:3px solid gray;
+    font-size: 14px;
+    font-weight: bold;
+}
+.graphContainer{
+
+    position:absolute;
+    left:200px;
+    top:400px;
+    width:600px;
+    height:300px;
+    border-left:solid 5px;
+    border-bottom: solid 5px;
+    border-color:gray;
+}
+
+.graphLabel{
+    position:absolute;
+    position:absolute;
+    font-family: 'Segoe UI';
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.roleLabel {
+    position:absolute;
+    font-family: 'Segoe UI';
+    font-size: 16px;
+    font-weight: bold;
+/*    -ms-transform:rotate(-90deg); */
+}
+
+
+.utilizationBar {
+    position:absolute;
+    width:25px;
+    background-color: orange;
+}
+
+/*  Define teh styles for the Role Based Effort graph*/
+.legendContainer{
+    overflow:auto;
+}
+
+.legendColorBox{
+    position:absolute;
+    width:20px;
+    height:20px;
+}
+
+.legendLabel{
+    position:absolute;
+    font-family: 'Segoe UI';
+    font-size: 12px;
+    font-weight: bold;
+
+}
+
+/* Declare a section for the OVerhead Form styles*/
+.overheadTextBox{
+    float:right;
+    border:solid 1px;
+    width:50px;
+    height:25px;
+}
+
+/* Declare a class for a DIV to contain a list box collection (testbox, add button and listbox)*/
+.listboxCollection {
+    margin-left:12px;
+    background-color:transparent;
+}
+
+/* DEclare a style for the overhedd input content of the Role listbox*/
+.overheadContainer{
+    margin-top:5px;
+    margin-right:5px;
+    float:right;
+    width:150px;
+    height:25px;
+    background-color:transparent;
+}
+
+/* Declare a style element for a disabled listbox option*/
+.disabledElement {
+    font-family: 'Segoe UI';
+    font-size: 14px;
+    font-weight: normal;
+    color:lightgray;
+}
+
+.enabledElement {
+    font-family: 'Segoe UI';
+    font-size: 14px;
+    font-weight: normal;
+    color:black;
+}
+
+
+.complexityTextBox {   
+    width:15em;
+    height:25px;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:normal;
+}
+
+.dimensionTextBox {   
+    width:25em;
+    height:25px;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:normal;
+}
+
+.basicTextBox {
+    height:1.8em;   
+    background-color:transparent;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:normal;
+    padding-bottom:10px;
+}
+
+.disabledTextBox {
+    height:1.5em;   
+    background-color:#F2F2F2;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:normal;
+}
+
+
+
+.basicCheckBox {
+    height:1.5em;   
+    margin-left:5px;
+    margin-bottom:-10px;
+    padding-left:0px;
+    padding-bottom:0px;
+    background-color:transparent;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:bold;
+}
+
+
+.sectionLabel {
+    height:1.5em; 
+    width:90px;  
+    margin-top:8px;
+    margin-left:0px;
+    padding-left:0px;
+    background-color:transparent;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:bold;
+}
+
+.formColumnLabel {
+    height:1.5em;   
+    margin-top:8px;
+    margin-left:0px;
+    padding-left:0px;
+    background-color:transparent;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:bold;
+}
+
+
+
+.rightVerticalPane {
+    position:absolute;
+    top:15px;
+    left:40%;
+    background-color:white;
+    border-radius:20px;
+    width:59%;
+    margin:0px;
+    height:950px;
+    clear:both;
+}
+
+/*  Declare a style for a basic description box*/
+.basicTextArea {
+    width:40em;
+    height:3em;
+}
+
+
+.resourceStyle {
+    background-color:white;
+    border-radius:20px;
+    width:98%;
+    margin:10px;
+    height:300px;
+    clear:both;
+}
+
+.header {
+    color: black;
+    font-size:x-large;
+    width:90%;
+    text-align:center;
+    margin:10px;
+    font-family:'Segoe UI';
+    font-size:20px;
+    font-weight:bold;
+    background-color:transparent;
+    height:30px;
+}
+
+.headerLeftCol {
+    color: black;
+    font-size:x-large;
+    width:25%;
+    float:left;
+    margin:10px;
+    font-family:'Segoe UI';
+    font-size:20px;
+    font-weight:bold;
+    background-color:white;
+    height:30px;
+}
+
+.projectLabel{
+    color:black;
+    font-family:'Segoe UI';
+    font-weight:bold;
+    font-size:20px;
+    position:relative; 
+    float:left;
+    left:10px; 
+    margin-top:0px;
+}
+
+.formLabel{
+    color:black;
+    font-family:'Segoe UI';
+    font-weight:bold;
+    font-size:16px;
+    position:relative; 
+    float:left;
+    left:10px; 
+    margin-top:0px;
+}
+
+.formInput {
+    font-family:'Segoe UI';
+    font-weight:normal;
+    font-size:16px;
+    height:75px;
+}
+
+.headerRightCol {
+    color: black;
+    font-size:x-large;
+    width:25%;
+    float:right;
+    text-align:right;
+    margin:10px;
+}
+.navigationHeader {
+    color: Black;
+    font-size:18px;
+    font-family:'Segoe UI';
+    font-weight:bold;
+    width:100%;
+    clear:both;
+    background-color:transparent;
+}
+
+.pageHeader {
+    margin-bottom:0px;
+    color: Black;
+    font-size:xx-large;
+    font-family:'Segoe UI';
+    font-weight:bold;
+    width:100%;
+    text-align:center;
+    clear:both;
+    background-color:transparent;
+}
+
+.prevButton {
+    float:left;
+    margin-left:20px;
+    margin-top:10px;
+    font-size:large;
+    font-family:'Segoe UI';
+    font-weight:normal;
+    text-align:left;
+    color:blue;
+}
+
+.nextButton {
+    float:right;
+    margin-right:20px;
+    margin-top:10px;
+    font-size:large;
+    font-family:'Segoe UI';
+    font-weight:normal;
+    text-align:left;
+    color:blue;
+}
+
+
+.smallHeader {
+    color: Black;
+    font-size:large;
+    font-family:'Segoe UI';
+    font-weight:bold;
+    width:100%;
+    text-align:center;
+    clear:both;
+    background-color:transparent;
+}
+
+.pageLeftCol {
+    width:15%;
+    font-size:large;
+    color:black;
+    float:left;
+    margin:10px;
+    height:500px;
+    column-count:2;
+    column-gap:3px;
+}
+
+
+
+
+.formSpan {
+    width:100%;
+    column-span:all;
+    height:50px;
+    margin-top:3px;
+    background-color:transparent;
+}
+
+.sectionSpan {
+    width:100%;
+    column-span:all;
+    height:2em;
+    margin-top:3px;
+    background-color:transparent;
+}
+
+
+.listbox {
+    min-width: 150px;
+}
+
+.listboxButton {
+    margin-top: 5px;
+    width: 75px;
+    height:25px;
+    margin-left: 10px;
+    padding-left:10px;
+    border-radius:10px;
+    background-color:orange;
+    color:white;
+
+}
+
+.navigationBar {
+    width:100%;
+    position:absolute;
+    bottom:0px;
+    height:50px;
+    margin-top:3px;
+}
+
+.sectionLabelCol {
+}
+
+
+.formLabelCol {
+    float:left;
+    margin-left:10px;
+    height:1.5em;
+}
+
+.formInputCol {
+    float:left;
+    margin-left:5px;
+    background-color:transparent;
+}
+
+.headerCol {
+    column-span:all;
+}
+
+
+
+.pageLeftThirdCol {
+    position:absolute;
+    float:left;
+    left:10px;
+    top:50px;
+    width:600px;
+    font-size:large;
+    color:black;
+    float:left;
+    margin:10px;
+    height:700px;
+    overflow:hidden;
+    background-color:white;
+}
+
+/* Declare a set of style for the ORganization form*/
+
+
+.resourceTable {
+    width:95%;
+    margin-left:0px;
+    border-style:solid;
+    border-width:1px;
+    border-color:black;
+    background-color:white;
+    border-radius:10px;
+}
+
+.resourceTable thead {
+        height:35px;
+        background-color:orange;
+        color:white;
+        font-family:'Segoe UI';
+        font-size:16px;
+        font-weight:900;
+        padding:0px;
+    }
+ 
+.resourceTable thead tr {
+    height:35px;
+}
+
+
+.resourceTable thead th {
+    vertical-align:top;
+}
+
+/*  Define the styles for the workstream modeling functionality*/
+
+.formContainer {
+    float: left;
+    width: 90%;
+    height: 800px;
+    margin-left: 5%;
+    background-color: white;
+}
+.workstreamCalendarForm {
+    float:left;
+    width:100%;
+    height:400px;
+    background-color:white;
+}
+
+.workstreamCalendar {
+    float:left;
+    width:100%;
+    height:98%;
+    margin-bottom:75px;
+    overflow:scroll;
+}
+
+.workstreamCalendarCanvas {
+    float:left;
+    border-width:1px;
+    border-style:solid;
+    background-color:white;
+}
+
+.workstreamGraphic {
+    position:relative;
+    background-color:#099BDD;
+    height:35px;
+    width:100px;
+    box-shadow: 5px 5px 5px #888888;
+}
+
+.resourceWorksheet {
+    float:left;
+    width:100%;
+    height:400px;
+    background-color:white;
+}
+
+
+.deliverableAssignmentContainer {
+    width:100%;
+    margin-left:0px;
+    border-style:solid;
+    border-width:1px;
+    border-color:black;
+    background-color:transparent;
+    border-radius:10px;
+}
+
+.deliverableAssignmentContainer thead {
+        height:35px;
+        background-color:orange;  
+/*        background:linear-gradient(orange,white);*/
+        color:white;
+        font-family:'Segoe UI';
+        font-size:16px;
+        font-weight:900;
+        padding:0px;
+    }
+ 
+.deliverableAssignmentContainer thead tr {
+    height:35px;
+}
+
+
+.deliverableAssignmentContainer thead th {
+    vertical-align:top;
+}
+
+
+.deliverableAssignmentDiv {
+    float:left;
+    margin-left:2%;
+    margin-bottom:10px;
+    width:50%;
+    height:90%;
+    overflow:scroll;
+    background-color:transparent;
+}
+
+.workstreamCreationDiv {
+    float:left;
+    margin-left:10px;
+    margin-bottom:10px;
+    width:47%;
+    height:90%;
+    overflow:scroll;
+    background-color:transparent;
+}
+
+.workstreamTableDiv {
+    float:left;
+    width:100%;
+    height:100%;
+    background-color:transparent;
+}
+
+.workstreamContainer {
+    width:100%;
+    margin-left:0px;
+    border-style:solid;
+    border-width:1px;
+    border-color:black;
+    background-color:transparent;
+    border-radius:10px;
+}
+
+
+
+.workstreamContainer thead {
+        height:35px;
+        background-color:orange;  
+/*        background:linear-gradient(orange,white);*/
+        color:white;
+        font-family:'Segoe UI';
+        font-size:16px;
+        font-weight:900;
+        padding:0px;
+    }
+ 
+.workstreamContainer thead tr {
+    height:35px;
+}
+
+
+.workstreamContainer thead th {
+    vertical-align:top;
+}
+
+
+
+/* Declare a set of styles for the context menus*/
+.deliverableContextMenu {
+    position:absolute;
+    width: 150px;
+    height: 60px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: rgba(0,0,0,.4) 10px 10px;
+    border-style:solid;
+    border-width:1px;
+    border-color:black;
+    text-align:center;
+}
+
+.optionDiv {
+    float:left;
+    width:94%;
+    margin-left: 3%;
+    margin-top:3px;
+    height: 1.5em;
+    font-family: 'Segoe UI';
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.optionDiv:hover {
+    background-color:orange;
+    color:white;
+}
+
+.menuTable {
+    background-color:transparent;
+}
+
+    .menuTable td {
+    text-align:center;
+    }
+
+/* DEclare the styles for the Scope modeling */
+.selectionContainer {
+    float: left;
+    margin-left:3%;
+    width: 100%;
+    height: 2em;
+    font-family: 'Segoe UI';
+    font-size: x-large;
+    font-weight: bold;
+    background-color:transparent;
+}
+
+.wbsDivHeader {
+    float: left;
+    margin-left:3%;
+    margin-top:0px;
+    width: 100%;
+    height: 2em;
+    font-family: 'Segoe UI';
+    font-size: x-large;
+    font-weight: bold;
+    background-color:transparent;
+}
+
+
+.wbsDiv {
+    float:left;
+    margin-left:25px;
+    margin-bottom:10px;
+/*    width:85%; */
+    height:500px;
+    overflow:scroll;
+    background-color:transparent;
+}
+
+
+.productivityModelDiv {
+    float:left;
+    margin-left:2%;
+    height:35%;
+    overflow:scroll;
+    background-color:transparent;
+
+}
+
+.scopeModelDiv {
+    float:left;
+    margin-left:25px;
+/*    width:96%; */
+    height:250px;
+    overflow:scroll;
+    background-color:transparent;
+
+}
+
+.unitName {
+    width: 175px;
+}
+
+.assumption {
+    width: 400px;
+}
+
+
+.effortCount {
+    width:50px;
+}
+
+.buttonCell {
+    width: 100px;
+}
+
+
+
+.deliverableColumn {
+    width:200px;
+}
+
+.percentCompleteColumn{
+    width:50px;
+}
+deliverableDescriptionColumn{
+    width:100px;
+}
+
+.crossReferenceColumn{
+    width:50px;
+}
+
+.deliverableEffortColumn{
+    width:75px;
+}
+
+.completionTextBox{
+    width:40px;
+    height:15px;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:normal;
+}
+
+.wbsContainer {
+/*   width:95%; */
+    margin-left:0px;
+    border-style:solid;
+    border-width:1px;
+    border-color:black;
+    background-color:transparent;
+}
+
+.wbsContainer thead {
+        height:35px;
+        background-color:orange;  
+/*        background:linear-gradient(orange,white);*/
+        color:white;
+        font-family:'Segoe UI';
+        font-size:16px;
+        font-weight:900;
+        padding:0px;
+    }
+ 
+.wbsContainer thead tr {
+    height:35px;
+}
+
+
+.wbsContainer thead th {
+    vertical-align:top;
+}
+
+/* Delare menu bar styles*/
+.menuContainer {
+    width:100%; 
+/*    min-width:1600px; */
+    float: left;
+    padding: 0px;
+    margin:0px;
+    background-color: Black;
+}
+.organizationContainer {
+    float:left;
+    margin-left:10%;
+    color: white;
+    font-family:Segoe UI;
+    font-size:13px;
+    font-weight:600;
+    vertical-align:middle;
+}
+
+.projectContainer {
+    float:left;
+    margin-left:50px;
+    color: white;
+    font-family:Segoe UI;
+    font-size:13px;
+    font-weight:600;
+    vertical-align:middle;
+}
+
+.orgList {
+    margin-left: 10px;
+    margin-top:13px;
+    width:125px;
+}
+
+.signInDiv {
+    float: right;
+    margin-right: 5%;
+    background-color:transparent;
+}
+
+/* Set the style options for the enabled menu bar*/
+.menuBar {
+    float: left;
+    padding: 0px;
+    margin:0px;
+    list-style: none;
+}
+
+.menuBar ul{
+    width:190px;
+    list-style: none;
+    color:red;
+    position:absolute;
+    left:-9999px;
+}
+
+
+.menuBar ul ul {
+    width:190px;
+    list-style: none;
+    position:relative;
+    left:100%;
+}
+
+
+
+.menuBar ul ul li{
+    width:190px;
+    list-style: none;
+    color:pink;
+    position:relative;
+    left:-50%;
+    visibility:hidden;
+}
+
+
+.menuBar ul li {
+    float: none;
+    background-color:rgba(250,250,250,1);
+    padding-top: 1px;
+    padding-left:0px;
+    text-decoration:none;
+    border-style:solid;
+    border-width:0 0 1px;
+    border-color:lightgrey;
+}
+
+.menuBar ul ul {
+        height: 0px;
+    }
+
+.menuBar ul li:hover li{ /* Display the dropdown on hover */
+    left:auto;
+    margin-left:80%;
+    top:-40px;
+    visibility:visible;
+}
+
+
+.menuBar li:hover ul{ /* Display the dropdown on hover */
+    left:auto;
+    margin-left:-40px;
+    visibility:visible;
+}
+
+.menuBar li:hover a {
+    background: rgba(250,250,250,1);
+    color:black;
+}
+
+.menuBar ul li a:hover {
+    background: rgba(240,240,240,1);
+}
+
+
+.menuBar li {
+        float: left;
+        }
+
+.menuBar li a {
+        display: block;
+        padding-top: 13px;
+        padding-bottom: 13px;
+        text-decoration:none;
+        color:White;
+        font-family:Segoe UI;
+        font-size:13px;
+        font-weight:600;
+        padding-left:15px;
+        padding-right:15px;
+    }
+
+     .menuItem
+    {
+        color:White;
+        font-family:Segoe UI;
+        font-size:20px;
+        text-decoration:none;
+    }
+
+
+   
+/* End of Menu bar styles*/
+
+/* Declare the set of styles for the Work Item interface*/
+.workItemContainer {
+    float:left;
+    width:575px;
+    margin:10px;
+    height:600px;
+    background-color:white;
+    overflow:scroll;
+}
+
+
+
+.workItem {
+    background-color:white;
+    border-radius:10px;
+    border-color:black;
+    border-style: solid;
+    border-width: 1.5px;
+    width:500px;
+    height:100px;
+    box-shadow:rgba(0,0,0,.4) 10px 10px;
+}
+
+.workItemTextBox {
+    position:relative; 
+    left:35px;
+    top:-25px;
+    background-color:#f0f0f0;
+    border-width:1.5px;
+    border-color: lightgray;
+    border-style:solid; 
+    width:420px;
+    height:50px;
+    margin-top:0;
+    text-decoration-color:gray;
+    font-family:'Segoe UI';
+    font-size:18px;
+    font-weight:bold;
+    overflow:scroll;
+    overflow-x:hidden;
+}
+
+.workItemButton {
+    float:left;
+    width:30px;
+    height:100px;
+    border-top-left-radius:10px;
+    border-bottom-left-radius:10px;
+    background-color:lightgray;
+    border-style:ridge;
+    border-color:gray;
+    border-width:1px;
+    text-align:center;
+    vertical-align:middle;
+}
+
+    .workItemButton p {
+        margin-top:30px;
+        font-family:'Segoe UI';
+        font-size:20px;
+        font-weight:bold;
+        text-align:center;
+
+    }
+
+.workItemStatus {
+    position:relative; 
+    left:200px; 
+    top:-33px;
+    height:20px;
+}
+
+.workItemLabel {
+    width:100px;
+    position:relative; 
+    left:10px; 
+    top:2px;
+    margin-top:0;
+    margin-bottom:0;
+    font-family:'Segoe UI';
+    font-size:12px;
+    font-weight:bold
+}
+
+
+.styleLabel {
+    position:relative; 
+    left:100px; 
+    top:-12px;
+    height:20px;
+    width:100px;
+    margin-top:0;
+    margin-bottom:0;
+    font-family:'Segoe UI';
+    font-size:12px;
+    font-weight:bold;
+}
+
+.workItemText {
+    position:relative; 
+    top:3px;
+    left:0px;
+    margin-top:0;
+    margin-bottom:0;
+    margin-left:2px;
+    text-decoration-color:gray;
+    font-family:'Segoe UI';
+    font-size:16px;
+}
+
+.secondaryFormLabel {
+    position:relative; 
+    margin-top:0;
+    margin-bottom:15px;
+    margin-left:10px;
+    font-family:'Segoe UI';
+    font-size:20px;
+    font-weight:bold
+}
+.tertiaryFormLabel {
+    position:relative; 
+    margin-top:10px;
+    margin-bottom:0;
+    margin-left:20px;
+    font-family:'Segoe UI';
+    font-size:15px;
+    font-weight:bold
+}
+
+
+/* Declare the canvas styles*/
+
+.calendarCanvas {
+    border-style:solid;
+    border-width:1px;
+    border-color:black;
+    margin-top:10px;
+    margin-left:0px;
+    margin-right:10px;
+    height:400px;
+    width:1200px;
+}
+
+.sliderCanvas {
+    border-style:solid;
+    border-width:1px;
+    border-color:black;
+    margin-top:10px;
+    margin-left:0px;
+    margin-right:10px;
+    width:1200px;
+    height:35px;
+    background-color:lightgrey;
+}
+
+.projectCanvas {
+    float:left;
+    border-style:solid;
+    border-width:1px;
+    border-color:black;
+    margin-top:10px;
+    margin-left:10px;
+    height:400px;
+    width:200px;
+}
+
+.slider {
+    margin-left:215px;
+    width:1200px;
+}
+
+
+h1 {
+    font-size:xx-large;
+    font-family:'Segoe UI';
+    font-weight:bold;
+    color:black;
+    float:left;
+}
+
+h2 {
+    font-size:large;
+    font-family:'Segoe UI';
+    font-weight:bold;
+    color:black;
+    float:left;
+}
+
+.combo {
+    margin-top:25px;
+    margin-left:10px;
+    font-size:large;
+    font-family:'Segoe UI';
+}
+
+
+.SelectButton {
+    height:30px;
+    width:100px;
+    vertical-align:top;
+    color:#0E5FF4;
+    font-family:'Segoe UI';
+    font-size:16px;
+    font-weight:900;
+    margin-right:20px;
+    
+}
+
+    .SelectButton:hover {
+        cursor: default;
+    }
+
+/* Styles for the Work Item controls    */
+.taskItemExpansionButton {
+    float:left;
+    width:25px;
+    height:100%;
+    font-family:'Segoe UI';
+    font-size:20px;
+    font-weight:bold;
+    border-top-left-radius:10px;
+    border-bottom-left-radius:10px;
+}
+
+
+/*  Styles for the Sprint Status display */
+
+
+.taskDiv {
+    float:left;
+    width:1200px;
+}
+
+.sprintStatusDiv {
+    width:90%;
+    margin-left:5%;
+    margin-top:50px;
+    height:80%;
+    border-style:solid;
+    border-width:1px;
+    border-color:black;
+    background-color:White;
+    border-radius:10px;
+    overflow:scroll;
+}
+
+
+
+
+
+.sprintStatusContainer thead {
+        background-color:orange;
+        color:white;
+        font-family:'Segoe UI';
+        font-size:16px;
+        font-weight:900;
+        padding:0px;
+    }
+
+ 
+
+.sprintStatusContainer .ready {
+    width:33%;
+}
+
+.sprintStatusContainer th {
+    width:398px;
+    vertical-align:top;
+}
+
+.sprintStatusContainer tbody tr {
+}
+
+.navButtonDiv {
+    float:left;
+    margin-left:20px;
+    margin-top:10px;
+    color:black;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:bold;
+    border-style:solid;
+    border-color:black;
+    border-width:0px;
+    padding-right:10px;
+
+}
+
+    .navButtonDiv:hover {
+        cursor:default;
+        color:blue;
+    }
+
+.rightNavigationDiv {
+    float: right;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+/*  Styles for the Task Control*/
+.taskItem {
+    width:375px;
+    height:75px;
+    margin-top:3px;
+    border-style:solid;
+    border-radius:10px;
+    border-width:1px;
+    background-color:white;
+    overflow:scroll;
+    overflow-x:hidden;
+}
+
+.dragCell {
+    float:left;
+    top:10px;
+    height:auto;
+    min-height:75px;
+    min-width:300px;
+    vertical-align:top;
+}
+
+.taskLabel {
+    margin:0px;
+    padding:0px;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:bold;
+}
+
+.taskDescription {
+    margin:0px;
+    padding:0px;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:bold;
+}
+
+
+.firstRow {
+    position:relative;
+    left:10px;
+    top:0px;
+    height:50px;
+    width:310px;
+    padding:0px;
+    margin:0px;
+}
+
+.secondRow {
+    position:relative;
+    left:10px;
+    top:0px;
+    height:25px;
+    width:310px;
+}
+
+
+.task {
+    float:left;
+    width:50px;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:bold;
+}
+
+.description {
+    float: left;
+    width:250px;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:bold;
+}
+
+.assigneeLabel {
+    float:left;
+    height:25px;
+    width:80px;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:bold;
+}
+.assignee {
+    float:left;
+    height:25px;
+    width:160px;
+    vertical-align:top;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:bold;
+}
+
+/* Declare a set of styles for the Productivity Model page*/
+.naturalUnitDiv {
+    float:left;
+    margin-left:2%;
+/*    width:96%; */
+    height:45%;
+    overflow:scroll;
+    background-color:white;
+
+}
+
+
+
+
+.tableButtonContainer {
+    float:left;
+    margin-left:2%;
+    width:1200px;
+    height:40%;
+}
+
+.tableButton {
+    float:right;
+    margin-right:58px;
+    margin-top:10px;
+    border-radius:10px;
+    background-color:orange;
+    color:white;
+    width:60px;
+    height:25px;
+}
+
+.wizardButton {
+    border-radius:10px;
+    margin-left:5px;
+    background-color:orange; 
+    color:white;
+    width:80px;
+    height:25px;
+    font-size:small;
+    font-weight:bold;
+    border-width:0px;
+}
+
+.wizardQuitButton {
+    float:right;
+    border-radius:10px;
+    margin-top:10px;
+    margin-right:50px;
+    background-color:orange; 
+    color:white;
+    width:60px;
+    height:25px;
+    font-size:small;
+    font-weight:bold;
+    border-width:0px;
+}
+
+.cellButton {
+    border-radius:10px;
+    margin-left:5px;
+   background-color:orange; 
+    color:white;
+    width:60px;
+    height:25px;
+    font-size:small;
+    font-weight:bold;
+    border-width:0px;
+}
+
+.disabledCellButton2 {
+    color:lightgray;
+}
+
+
+
+.timerBar{
+    height:15px;
+    width:200px;
+    border:solid 1px lightgray;
+    background-color:white;
+}
+
+
+.effortValue {
+    width:50px;
+}
+
+.NUValue {
+    width:150px;
+}
+
+
+.NUDetailDiv {
+    float:left;
+    margin-left:2%;
+    width:96%;
+    height:33%;
+    overflow:scroll;
+    background-color:white;
+
+}
+
+.divHeader {
+    float: left;
+    margin-left:3%;
+    width: 100%;
+    height: 2em;
+    font-family: 'Segoe UI';
+    font-size: x-large;
+    font-weight: bold;
+    background-color:transparent;
+}
+
+
+.incrementImage {
+    width:20px;
+    height:20px;
+
+    margin-left:5px;
+    margin-right:5px;
+}
+.naturalUnitContainer {
+    width:1000px;
+    margin-left:0px;
+    border-style:solid;
+    border-width:1px;
+    border-color:black;
+    background-color:white;
+    border-radius:0px;
+}
+
+.highlight {
+    background:linear-gradient(rgba(128,193,229,1),white,rgba(128,193,229,1));
+}
+.normal {
+    background: linear-gradient(white,white);
+}
+
+.hidden {
+    width: 0px;
+    display:none;
+}
+
+.expander {
+    width: 20px;
+    text-align:center;
+        font-size:20px;
+        font-weight:bolder;
+}
+
+.naturalUnitContainer thead {
+        height:35px;
+        background-color:orange;
+        color:white;
+        font-family:'Segoe UI';
+        font-size:16px;
+        font-weight:900;
+        padding:0px;
+        border-radius:10px;
+    }
+ 
+.naturalUnitContainer thead tr {
+    height:35px;
+}
+
+
+.naturalUnitContainer thead th {
+    vertical-align:top;
+}
+.standardNUColumn {
+    width: 390px;
+}
+
+.NUNameColumn {
+    width:200px;
+}
+
+.NUDescriptionColumn {
+    width: 600px;
+}
+
+.descriptionInput {
+    width:350px;
+}
+
+.crossReferenceInput {
+    width:50px;
+}
+
+.deliverableInput {
+    width:175px;
+}
+
+
+
+.buttonColumn {
+    width:200px;
+}
+
+.twoButtonColumn {
+    width:160px;
+}
+
+.naturalUnitContainer tbody th {
+    text-align:left;
+    padding-left:5px;
+    font-family:'Segoe UI';
+    font-size:16px;
+    font-weight:normal;
+
+}
+
+.scopeModelTable {
+    margin-left:0px;
+    border-style:solid;
+    border-width:1px;
+    border-color:black;
+    background-color:white;
+    border-radius:0px;
+}
+
+.scopeModelTable thead {
+        height:35px;
+        background-color:orange;
+        color:white;
+        font-family:'Segoe UI';
+        font-size:16px;
+        font-weight:900;
+        padding:0px;
+    }
+ 
+.scopeModelTable thead tr {
+    height:35px;
+}
+
+
+.scopeModelTable thead th {
+    vertical-align:top;
+}
+
+.scopeModelTable tbody th {
+    text-align:left;
+    padding-left:5px;
+    font-family:'Segoe UI';
+    font-size:16px;
+    font-weight:normal;
+
+}
+
+.rowcolumn {
+    width: 100px;
+}
+
+.rolecolumn {
+    width: 200px;
+}
+
+.dimColumn {
+    width: 250px;
+}
+
+.effortColumn {
+    width: 180px;
+}
+
+.productivityModelLabel {
+    background-color:orange;
+    color:white;
+    font-family:'Segoe UI';
+    font-size:x-large;
+    font-weight:bold;
+
+}
+
+/* Create styles for the Hover text */
+.hoverDiv {
+    position:absolute;
+    width:200px;
+    height:100px;
+    border-style:solid;
+    border-width:1px;
+    border-color:black;
+    background-color:ivory;
+    border-radius:10px;
+}
+
+.hoverText {
+    line-height:1.0;
+    margin-left:10px;
+    margin-top:.5em;
+    margin-bottom:0em;
+    font-family:'Segoe UI';
+    font-size:14px;
+    font-weight:bold;
+}

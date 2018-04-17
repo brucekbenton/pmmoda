@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" minimum-scale="1.0" maximum-scale="1.0" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="~/Scripts/CommonConstants.js"></script>
+    <script src="~/Scripts/cookieManagement.js"></script>
+    <script src="~/Scripts/CommonUtilities.js"></script>
+    <script src="~/Scripts/organization.js"></script>
+    <script src="~/Scripts/organizationForm.js"></script>
+    <script src="~/Scripts/Role.js"></script>
+    <script src="~/Scripts/homePage.js"></script>
+    <script src="~/Scripts/CompanyForm.js"></script>
+    <script src="~/Scripts/Company.js"></script>
+    <script src="~/Scripts/RegisterUserForm.js"></script>
+    <script src="~/Scripts/Response.js"></script>
+    <script src="~/Scripts/permissionForm.js"></script>
+    <script src="~/Scripts/UserRole.js"></script>
+    <script src="~/Scripts/changePasswordForm.js"></script>
+    <script src="~/Scripts/systemPasswordResetForm.js"></script>
+    <script src="~/Scripts/statusBar.js"></script>
+    <script src="~/Scripts/MasterRoleForm.js"></script>
+    <script src="~/Scripts/StatusBarForm.js"></script>
+    <script src="~/Scripts/MasterRole.js"></script>
+    <script src="~/Scripts/ActivityForm.js"></script>
+    <script src="~/Scripts/ActivityMap.js"></script>
+    <script src="~/Scripts/projectTeamForm.js"></script>
+    <script src="~/Scripts/Response.js"></script>
+    <script src="~/Scripts/WizardFormContainer.js"></script>
+
+    <script type="text/javascript">
+        var appInsights = window.appInsights || function (config) {
+            function r(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, u = document, e = window, o = "script", s = u.createElement(o), i, f; for (s.src = config.url || "//az416426.vo.msecnd.net/scripts/a/ai.0.js", u.getElementsByTagName(o)[0].parentNode.appendChild(s), t.cookie = u.cookie, t.queue = [], i = ["Event", "Exception", "Metric", "PageView", "Trace"]; i.length;) r("track" + i.pop()); return r("setAuthenticatedUserContext"), r("clearAuthenticatedUserContext"), config.disableExceptionTracking || (i = "onerror", r("_" + i), f = e[i], e[i] = function (config, r, u, e, o) { var s = f && f(config, r, u, e, o); return s !== !0 && t["_" + i](config, r, u, e, o), s }), t
+        }({
+            instrumentationKey: "3f75e659-2f3a-4478-b36b-bb9aa80248fc"
+        });
+
+        window.appInsights = appInsights;
+        appInsights.trackPageView();
+    </script>
+</head>
+<body style="background-color:darkgray" onload="InitializeHomePage()" >
+    <div id="mainMenuBar" class="menuContainer" style="top:0px;min-width:1500px;">
+        <ul id="orgMenu" class="menuBar">
+            <li>
+                <a id="menuBtnHome" onclick="loadProductivityModel()">Productivity Model</a>
+            </li>
+        </ul>
+        <ul id="projectMenu" class="menuBar">
+            <li>
+                <a onclick="loadScopeModel()">Effort Model</a>
+            </li>
+            <!--
+                        <li>
+                            <a onclick="loadWorkstreamModel()">Workstream Modeling</a>
+                        </li>
+            -->
+            <li>
+                <a onclick="loadTimeline()">Timeline</a>
+            </li>
+
+        </ul>
+        <ul id="adminMenu" class="menuBar">
+            <li>
+                <a id="btnAdmin" href="#">Administration</a>
+                <ul id="adminOptions">
+
+                    <li id="systemOptions">
+                        <a href="#">System Admin</a>
+                        <ul>
+                            <li id="registerUserForm"><a onclick="loadRegisterUserFormHandler()">Register Users</a></li>
+                            <li id="systemPasswordResetControl"><a onclick="systemPasswordResetControlHandler()">Reset User Password</a></li>
+                        </ul>
+                    </li>
+                    <li id="companyOptions">
+                        <a href="#">Application Admin</a>
+                        <ul>
+                            <li><a id="CompanyOption" onclick="loadCompanyFormHandler()">Manage Companies</a></li>
+                            <li id="permissionForm"><a onclick="loadPermissionFormHandler()">Manage Permissions</a></li>
+                            <li id="masterRoleForm"><a onclick="loadMasterRoleFormHandler()">Manage Master Roles</a></li>
+                        </ul>
+                    </li>
+                    <li id="orgOptions">
+                        <a href="#">Organization Admin</a>
+                        <ul>
+                            <li id="projectTeamWizardControl"><a onclick="projectTeamWizardControlHandler()">Project Team Wizard</a></li>
+<!--                           <li><a id="orgOption" onclick="loadOrganizationForm()">Manage Project Teams</a></li>  --> 
+                            <li><a id="orgOption" onclick="loadProjectTeamForm()">Manage Project Teams</a></li>
+                            <li><a href="#" onclick="loadActivityForm()">Manage Activities</a></li>
+                            <li><a id="nuOption" onclick="loadNaturalUnitForm()">Manage Standard Components</a></li>
+                            <li><a id="projectOption" onclick="loadProjectForm()">Manage Projects</a></li>
+<!--                          <li><a href="#" onclick="loadStatusBar()">Test STatus Bar</a></li>    
+                            <li><a href="#" onclick="stopStatusBar()">Stop Status Bar</a></li> 
+    -->
+                        </ul>
+                    </li>
+                    <li id="orgOptions">
+                        <a id="changePasswordControl" onclick="changePasswordControlHandler()">Change Password</a>
+                    </li>
+                </ul>
+        </ul>
+
+
+        <div class="organizationContainer">
+            Project Team:
+            <select id="orgList" class="orgList" onchange="organizationSelectHandler()"></select>
+        </div>
+        <div class="projectContainer">
+            Project:
+            <select id="projectList" class="orgList" onchange="updateProject()"></select>
+        </div>
+
+        <!--    <div class="signInDiv">  -->
+        <ul id="loginMenu" class="menuBar" style="float:right;margin-right:150px;">
+            <li id="currentUserAliasContainer">
+                <a id="txtCurrentUserAlias"></a>
+            </li>
+            <li>
+                <a name="loginControl" id="loginControl" onclick="loginControlHandler()">Log In</a>
+            </li>
+            <li>
+                <a id="helpContent" href="#">Help</a>
+                <ul id="helpOptions">
+                    <li><a href="MB2E OVerview.html" target="_blank">MB2E Overview</a></li>
+                    <li><a href="GettingStarted.html" target="_blank">Getting Started</a></li>
+                    <li><a href="PMMODA Reference Guide.htm" target="_blank">Reference Manual</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <!-- </div>  -->
+    <!--
+    <div id="tempRoleFeature">
+         <Label>Role</Label><input id="txtRole" type="text" style="width:200px;height:25px"  /><button onclick="addRole()">Add</button>
+        <label>User</label><input id="txtUser" type="text" style="width:200px;height:25px" /><label>Password</label><input id="txtSUPassword" type="text" style="width:200px;height:25px" /><button onclick="addUser()">Add</button>
+     </div>
+     -->
+    <div >
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - TruNBE.com</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/pmmoda")
+    @RenderSection("scripts", required: false)
+
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-route.min.js"></script>
+    <script src="~/Scripts/ReferenceActivity.js"></script>
+    <script src="~/Scripts/Administration.js"></script>
+    <script src="~/Scripts/ActivityMapModule.js"></script>
+    <script src="~/Scripts/organizationModule.js"></script>
+    <script src="~/Scripts/roleService.js"></script>
+    <script src="~/Scripts/Wizard.js"></script>
+    <script src="~/Scripts/aStatusBar.js"></script>
+</body>
+</html>
+
+<script type="text/javascript">
+
+    var loadStatusBar = function () {
+        $("<DIV id='StatusBarContainer' ></DIV>").addClass("popupFrame").css({'left':'500px', 'width': '475px', 'height': '150px','border':'solid 0px','background':'pink'}).appendTo('body');
+            //        $("<DIV id='header' ></DIV>").addClass("headerCol").appendTo('#form');
+            //        $("<p></p>").addClass("pageHeader").text('Projects').appendTo('#header');
+            //        $("<DIV id='frame'></DIV>").addClass("viewFrame").css({ 'width': '550px', 'height': '650px'}).appendTo('body');
+        $("#StatusBarContainer").load('templates/aStatusBar.html', function () {
+                var item = document.getElementById("statusBarForm");
+                angular.bootstrap(item, ["aStatusBar"]);
+            });
+    }
+
+    var stopStatusBar = function () {
+        $("#StatusBarContainer").remove();
+    }
+
+</script>

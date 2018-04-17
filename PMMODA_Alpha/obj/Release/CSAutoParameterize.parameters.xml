@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="Production-Web.config Connection String" description="Production Connection String used in web.config by the application to access the database." defaultValue="Server=tcp:mvd4rlue97.database.windows.net,1433;Database=PMMODA_Production;User ID=bbenton@mvd4rlue97;Password=Garth11!;Trusted_Connection=False;Encrypt=True;Connection Timeout=30" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\bruce\\Documents\\Visual\ Studio\ 2013\\Projects\\PMMODA_Alpha\\PMMODA_Alpha\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='Production']/@connectionString" />
+  </parameter>
+  <parameter name="AzureConnection-Web.config Connection String" description="AzureConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=pmmoda1.database.windows.net;Initial Catalog=PMMODAServerTest6266_db;Integrated Security=False;User ID=bbenton;Password=Garth11!;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\bruce\\Documents\\Visual\ Studio\ 2013\\Projects\\PMMODA_Alpha\\PMMODA_Alpha\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='AzureConnection']/@connectionString" />
+  </parameter>
+</parameters>

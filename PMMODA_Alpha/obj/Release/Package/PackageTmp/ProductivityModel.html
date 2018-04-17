@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="Content/StyleSheet1.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!--    <script type="text/javascript" src="/jquery-1.10.2.js"></script>  -->
+<!--     <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script> -->
+<!--    <script type="text/javascript" src="date.js"></script> -->
+    <script src="http://code.createjs.com/easeljs-0.7.1.min.js"></script>
+    <script src="Scripts/CommonConstants.js"></script>
+    <script src="Scripts/CommonUtilities.js"></script>
+    <script src="Scripts/NaturalUnit.js"></script>
+    <script src="Scripts/naturalUnitDisplayControl.js"></script>
+    <script src="Scripts/cookieManagement.js"></script>
+    <script src="Scripts/NaturalUnitModelControl.js"></script>
+    <script src="Scripts/NaturalUnitModel.js"></script>
+    <script src="Scripts/UnitDimension.js"></script>
+    <script src="Scripts/Response.js"></script>
+
+</head>
+<body class="bodyStyle" onload="loadData()">
+    <div id="pageFrame" class="sprintStatusFrame" style="width:1500px;height:1000px">
+        <div class="pageHeader">
+            Productivity Modeling
+            <button class="refreshButton" onclick="loadData()">Refresh</button>
+        </div>
+
+        <div class="divHeader">Natural Unit</div>
+        <div class="wbsDiv" style="height:500px">
+            <table id="naturalUnitTable" class="naturalUnitContainer">
+                <thead>
+                    <tr>
+                        <th class="hidden" style="width:0px" >ID</th>
+                        <th class="NUNAmeColumn">Name</th>
+                        <th class="NUDescriptionColumn">Description</th>
+<!--                        <th class="twoButtonColumn"></th>   -->
+                    </tr>
+                </thead>
+                <tbody id="naturalUnitDataBody"></tbody>
+            </table>
+        </div>
+        <div id="scopeModelHeader" class="selectionContainer">
+            Productivity Model:
+            <input id="modelLabel" class="productivityModelLabel" />
+        </div>
+        <div class="scopeModelDiv" style="height:300px">
+            <table id="naturalUnitModelTable" class="scopeModelTable">
+                <thead>
+                    <tr>
+                        <th rowspan="2" class="hidden" style="width:0px">ID</th>
+                        <th rowspan="2" class="dimColumn">Activity</th>
+                        <th colspan="3" class="effortColumn">Effort (Hours)</th>
+                        <th rowspan="2" class="buttonColumn"></th>
+                    </tr>
+                    <tr>
+                        <th class="effortColumn">Low Complexity</th>
+                        <th class="effortColumn">Medium Complexity</th>
+                        <th class="effortColumn">High Complexity</th>
+                    </tr>
+                </thead>
+                <tbody id="NaturalUnitModelBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+    <script type="text/javascript">
+
+        "use strict"
+        // Declare an object to store the current Natural Unit
+        var currentNaturalUnit;
+        // Declare an object to store the current Natural Unit
+        var currentNaturalUnit;
+        var UserID = 1;
+        var OrgID = 0;
+        // declare a variale to track whether the Natural Units are currently in Edit Mode
+        var c_naturalUnitEdit = false;
+        // Declare a local object to track when the user is actively editing a productivity model
+        var productivityModelEditFlag;
+
+        // Declare a function to manage loading the current page
+//        function load
+
+        // Declare a function to load the set of defined Natural Units for the current organization
+        function loadData() {
+
+            // Get the current Org ID
+            OrgID = getCookieOrgID();
+
+            // reset the edit flags
+            productivityModelEditFlag = false;
+            c_naturalUnitEdit = false;
+
+            // Update the frame size based on the current document dize
+            var height = $(document).height();
+            height = .95 * height;
+            // Size the form content for the current document
+            $("#pageFrame").css({ "height": height });
+
+            // Update the min width to fill the browser
+            var width = $(window).width();
+//            $("#temp").text(width.toFixed(2));
+
+            width = .95 * width;
+            //            width = 1600;
+//            $("#pageFrame").css({ "width": width });
+
+            // Reset the page contents
+            resetNaturalUnitDisplay();
+            resetModelDisplay();
+
+            // Construct the WebApi query string for the NaturalUnit data
+            var targetUrl = NaturalUnitUrl + "/" + OrgID;
+
+
+            loadNaturalUnitsByOrg(OrgID, refreshNaturalUnits, errorHandler);
+
+        }
+
+        function errorHandler(response) {
+            if (response.status == 401) {
+                alert("The current user does not have permissions to load the projects for this organization. Please see your administrator")
+            }
+            else {
+                alert("unspecified error occurred on Web Service Call");
+            }
+        }
+
+        // refresh the NAtural Unit display with the updated set of units
+        function refreshNaturalUnits(data) {
+            var recordCount = 0;
+
+
+            $.each(data, function (key, value) {
+                // Filter out the inactive records
+                if (value["isActive"]) {
+                    // Declare an object to store the current sprint
+                    var newValue = new NaturalUnit();
+                    // Initialize the sprint object
+                    newValue.ID = value["ID"];
+                    newValue.Name = value["Name"];
+                    newValue.Description = value["Description"];
+                    newValue.OrganizationID = OrgID;
+
+
+                    // Create the record specific table content
+                    var row = new naturalUnitDisplayControl();
+                    row.add(newValue);
+                    recordCount++;
+                }
+            });
+            // Make sure there are Units defined
+            if (recordCount == 0) {
+                alert("You must have at least one Natural Unit defined and it must have a valid dimension to build a productivity model. Please contact your admin.")
+            }
+        }
+
+        function createNewNaturalUnit() {
+            var row = new naturalUnitDisplayControl(OrgID,UserID);
+            row.addEmptyRow();
+        }
+
+        // Declare a method to update any changes to the current Natural Unit Model
+        function updateModel() {
+            alert("Save Current Model Changes - Feature Not Yet Implemented");
+        }
+
+        // Declare a function to load the model data for the currently selected row
+        function loadModel(unit) {
+            var targetUrl;
+
+//            targetUrl = naturalUnitModelUrl + "/" + unit.ID + "/" + unit.OrganizationID ;
+            targetUrl = NaturalUnitModelUrl + "?UnitID=" + unit.ID + "&OrgID=" + unit.OrganizationID;
+
+            // reset the current data
+            resetModelDisplay();
+
+            // Check to see if there is a current Natural Unit
+            if (currentNaturalUnit.ID > 0) {
+                $("#naturalUnitTable").val(currentNaturalUnit.ID);
+            }
+
+
+            loadNaturalUnitModel(unit.ID, unit.OrganizationID, updateProductivityModel, errorHandler);
+        }
+
+        // Update the Productivity Model control model for the currently selected Natural Unit
+        function updateProductivityModel(data) {
+            var index = 0;
+            var recordCount = 0;
+
+            while (index < data.length) {
+                var newValue = new NaturalUnitModel();
+                // Initialize the new object
+                newValue.DimensionID = data[index].DimensionID;
+                newValue.DimensionName = data[index].DimensionName;
+                newValue.LoEffort = data[index].LoNominalEffort; 
+                newValue.MedEffort = data[index].MedNominalEffort; 
+                newValue.HiEffort = data[index].HiNominalEffort; 
+                // Create the record specific table content
+                var row = new naturalUnitModelControl();
+                row.add(newValue);
+                index++;
+                // Increment the counter to indicate how many records were added to the control
+                recordCount++;
+            }
+
+            // Check to see if any records were entered
+            if (recordCount == 0) {
+                alert("You must have at least one valid dimension defined for each Natural Unit to build a productivity model. Please contact your admin.")
+            }
+        }
+
+        function resetNaturalUnitDisplay() {
+
+            var count = 0;
+            // remove the data rows
+            $('#naturalUnitTable tr').each(function () {
+                // Skip the header row
+                if (count > 0) {
+                    $(this).remove();
+                }
+                // Increment the counter
+                count++;
+            });
+        }
+
+        function resetModelDisplay() {
+            var table;
+            var count = 0;
+            // remove the data rows
+            $('#naturalUnitModelTable tr').each(function () {
+                // Skip the header row
+                if (count > 1) {
+                    $(this).remove();
+                }
+                // Increment the counter
+                count++;
+            });
+
+        }
+
+
+    </script>
+</html>

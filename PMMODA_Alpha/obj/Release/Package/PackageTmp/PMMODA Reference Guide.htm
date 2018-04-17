@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<style media="screen" type="text/css">
+    body{
+        margin-left:20px;
+        font-family:'Segoe UI';
+        font-size:16px;
+    }
+    p {
+        max-width:1000px;
+    }
+
+    table{
+        padding:0px;
+    }
+    table thead {
+        background-color:orange;
+        color:white;
+        font-weight:bold;
+    }
+    table td {
+        max-width: 600px;
+        padding-left:10px;
+    }
+</style>
+<title>Reference Guide</title>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body style="">
+    <div style="font-size:28px;font-weight:bold;margin-left:40%">PMMODA Reference Manual</div>
+    <h1>1 Security</h1>
+
+    <p>PMMODA is a multi-tenanted system with multiple companies sharing the same database. In order to full protect the confidentiality of information stored in this system security is enforced on both the client and the server side. All data filtering is performed on the server to ensure that no protected information is ever sent across the network. Every server requests are completely authenticated on the server side to ensure that data is filtered at the record level prior to returning data to the client. Additionally, all communications with the server are done via HTTPS to protect against network monitoring tools (Note: This feature will be enabled prior to product release).</p>
+
+    <p>In order to simplify the user experience additional filtering is done on the client side to hide features for which the current user does not have permissions. In this case validation requests are made to the server to determine what level of access the user has and the menu and screen content is customized based on the defined access levels. This is completely redundant with the sever filtering and is only performed to simplify the user interface for each user</p>
+
+    <h1>2 User Interface</h1>
+
+    <h2>2.1 Menu</h2>
+
+    <p>Access to application functionality is provided via the menu bar show in Figure 1 below. Most functionality is defined in the sections below but some options are described here.</p>
+
+    <img src="images/PMMODA_Menu.png" style="width:1000px;margin-top:40px;margin-bottom:40px;" />
+    <p><a name="_Ref432173932"><em>Figure </em></a><em>1: PMMODA Menu</em></p>
+
+    <table border="1" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th valign="top"><p><b>Field Name</b></p></th>
+                <th valign="top"><p><b>Description</b></p></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td valign="top"><p>Productivity Model</p></td>
+                <td valign="top"><p>Accesses the Productivity Model for the Organization currently selected</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Effort Model</p></td>
+                <td valign="top"><p>Accesses the Effort Model for the Project currently selected</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Timeline</p></td>
+                <td valign="top"><p>Accesses the Project Timeline Model for the Organization currently selected</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Administrations</p></td>
+                <td valign="top"><p>Accesses the submenu options for application and organization maintenances</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Organization</p></td>
+                <td valign="top"><p>Select the current Organization for the working session.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Project</p></td>
+                <td valign="top"><p>Select the current project for the working session</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Username</p></td>
+                <td valign="top"><p>Displays the alias of the currently logged in user</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Log-In/Log-Out</p></td>
+                <td valign="top"><p>Enables the operator user to log in as any desired user and to log out. All authentication filtering is performed on the server based on the current user context.</p></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <h2>2.2 Company Configuration</h2>
+
+    <p><b>Permissions</b>: Company Admin</p>
+
+    <p><b>Menu</b>: Administration=&gt;Application Admin=&gt;Manage Company</p>
+
+    <p>The first step is to ensure that the meta data for your company is correct since this includes the email alias that will be used to send account information and notifications. The form where you do this is show in Figure 1 below.</p>
+
+    <table border="1" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th valign="top"><p><b>Field Name</b></p></th>
+                <th valign="top"><p><b>Description</b></p></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td valign="top"><p>Name</p></td>
+                <td valign="top"><p>The name of your company. Please contact Support if there is an error in this name or a change needs to be made.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Contact Name</p></td>
+                <td valign="top"><p>The name of the primary customer contact for this company.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Contact Alias</p></td>
+                <td valign="top"><p>The email alias of the primary customer contact for this company. This alias will be used for account emails and general notifications</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Domain Name</p></td>
+                <td valign="top"><p>The company domain name.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Enforce Restricted Organizations</p></td>
+                <td valign="top"><p>Check this box if you want to restrict access to users by organization. This will require users to be granted permissions to individual organizations in order to work on those projects</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Enforce Restricted Projects</p></td>
+                <td valign="top"><p>Check this box if you want to restrict access to users by project. This will require users to be granted permissions to individual projects in order to work on those projects. (Note: This feature is not currently implemented any may not be in initial release</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Active</p></td>
+                <td valign="top"><p>Note: This field is to be removed from this form.</p></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <img src="images/CompanyManagement.png" style="width:500px;margin-top:40px;margin-bottom:40px;" />
+    <p><a name="_Ref432172159"><em>Figure </em></a><em>2: Company Management Form</em></p>
+
+    <h2>2.3 Permissions Management</h2>
+
+    <p><b>Permissions</b>: Company Admin</p>
+
+    <p><b>Menu</b>: Administration=&gt;Application Admin=&gt;Manage Permissions</p>
+
+    <p>Application access is controlled using the Permissions Management form. The company administrator can grant any combination of permissions to each registered user. Figure 3 shows the Permissions Management form. Each active user will appear in this form regardless of current assigned permissions.</p>
+
+    <table border="1" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th valign="top"><p><b>Action</b></p></th>
+                <th valign="top"><p><b>Method</b></p></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td valign="top"><p>Select Organization</p></td>
+                <td valign="top"><p>Use the Organization combo box to select the current organization. This is only required to set organization level permissions. This field will not appear if you do not have the Organization Restriction flag set on your company.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Assign Permission</p></td>
+                <td valign="top"><p>Click the checkbox under the column corresponding to the access level you wish to grant the current user.</p></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <img src="images/PermissionsManagement.png" style="width:800px;margin-top:40px;margin-bottom:40px;" />
+    <p><a name="_Ref432244424"><em>Figure </em></a><em>3: Permissions Management Form</em></p>
+
+    <h2>Project Team Wizard</h2>
+
+    <p><b>Permissions</b>: Company Admin, Organization Admin (filtered by organization)</p>
+
+    <p><b>Menu</b>: Administration=&gt;Organization Admin=&gt;Project Team Wizard</p>
+
+    <p>The wizard allows you to quickly create a new Project Team record based on your preferred staffing model and your application architecture. Choices for these two options will drive the configuration of the Component data, the Activity data and mapping of Activiites to Components. Hover over each field in teh wizard to get detailed help. </p>
+
+    <img src="images/Wizard.png" style="width:800px;margin-top:40px;margin-bottom:40px;" />
+    <p><em>Figure 4: Organization Management Form</em></p>
+
+    <h2>2.4 Organization Management</h2>
+
+    <p><b>Permissions</b>: Company Admin, Organization Admin (filtered by organization)</p>
+
+    <p><b>Menu</b>: Administration=&gt;Organization Admin=&gt;Manage Organizations</p>
+
+    <p>Once you have done you process planning you need to create the initial set of required organizations. There is no limit on the number of organizations you can create but each one should reflect a group of one or more projects sharing the same productivity model. You will also need to configure each organization to reflect your planned development methodology. </p>
+
+    <p>In PMMODA Organization is a generic concept and does not necessarily map to your traditional organization chart. You may have one functional organization with two, or more, defined PMMODA organizations if they work on more than one business area. Similarly, you may have two functional organizations sharing a single PMMODA organization if they share deliverable responsibilities.</p>
+
+    <img src="images/OrganizationManagement.png" style="width:500px;margin-top:40px;margin-bottom:40px;" />
+    <p><em>Figure 4: Organization Management Form</em></p>
+
+    <table border="1" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th valign="top"><p><b>Field Name</b></p></th>
+                <th valign="top"><p><b>Description</b></p></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td valign="top"><p>Organization</p></td>
+                <td valign="top"><p>This combo box enumerates the defined organizations for the current company. Select [Add New Organization] to create a new entry.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Name</p></td>
+                <td valign="top"><p>The friendly name of the current organization. This is not editable once created.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Description</p></td>
+                <td valign="top"><p>A short description of the organization. This should reflect the basic focus of the projects in this organization.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Overhead Calculator</p></td>
+                <td valign="top"><p>A link to the external overhead calculator tool. This tool can be used to calculate the percent of the day that team members spend on non-project activities. This number is typically much higher than people believe it is and should be modeled for each organization and role.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Roles</p></td>
+                <td valign="top"><p>This list enumerates all roles defined in the Master Role table for you company. (Note: The Master Role Admin form will be available in the Beta release). You should check each role which will be active within this organization. Typically this is defined based on your development methodology.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Overhead</p></td>
+                <td valign="top"><p>Specify the typical percent of time spent on non-project activities each day. This includes non-working overhead items like holiday and vacation, as well as working overhead items like email and meetings.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Active</p></td>
+                <td valign="top"><p>Check this flag to indicate whether this organization is active or not.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Workday</p></td>
+                <td valign="top"><p>Specify the number of hours in the typical workday within this organization.</p></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <p>Figure 3 below shows the Overhead Calculator tool from the TruNBE company web site. This tool can be used to model the typical percentage of time individuals spend on non-project activities. Details instructions in how to use the tool are included on the page.</p>
+
+    <img src="images/OverheadCalculator.png" style="width:800px;margin-top:40px;margin-bottom:40px;" />
+    <p><a name="_Ref432173662"><em>Figure </em></a><em>5: Overhead Calculator Tool</em></p>
+
+    <h2>2.5 Activity Management</h2>
+
+    <p><b>Permissions</b>: Company Admin, Organization Admin (filtered by organization)</p>
+
+    <p><b>Menu</b>: Administration=&gt;Organization Admin=&gt;Manage Activities</p>
+
+    <p>Activities are used to model your development methodology and help ensure completeness in your project estimates. They typically represent the functional aspect of your process. They can be used to ensure that all roles are represented in your estimates or can be used to separate business aspects such as billable and non-billable effort on a project.</p>
+
+    <p>For a traditional development process the Activities could enumerate role based activities like functional design, implementation, validation, documentation, etc. It may be useful to define Activities even for processes which do not differentiate roles, such as traditional scrum, because it helps the team ensure they are accounting for all aspects of the required work in their estimate. In general Activities have increased value for organizations with less comprehensive effort calibration numbers.</p>
+
+    <p>At least one Activity is required and all organizations are created with a default Activity named “Default”. This Activity should be disabled if you are defining custom Activities for your organization.</p>
+
+    <img src="images/DimensionManagement.png" style="width:500px;margin-top:40px;margin-bottom:40px;" />
+    <p><em>Figure 6: Activity Management Form</em></p>
+
+    <table border="1" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th valign="top"><p><b>Field Name</b></p></th>
+                <th valign="top"><p><b>Description</b></p></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td valign="top"><p>Organization</p></td>
+                <td valign="top"><p>This combo box enumerates the defined organizations for the current company. Contents filtered based on permissions.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Activity</p></td>
+                <td valign="top"><p>This combo box enumerates the defined Activities for the current organization. Select [Add New Activity] to add a new Activity.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Name</p></td>
+                <td valign="top"><p>The friendly name of the current Activity. </p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Description</p></td>
+                <td valign="top"><p>A short description of the Activity. This typically relates this Activity to your development methodology.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Active</p></td>
+                <td valign="top"><p>Check/uncheck this flag to enable/disable the current Activity. Disabling a Activity value will also disable any productivity models entries currently using that Activity. This can affect the calculated project effort.</p></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <h2>2.6 Standard Component Management</h2>
+
+    <p><b>Permissions</b>: Company Admin, Organization Admin (filtered by organization)</p>
+
+    <p><b>Menu</b>: Administration=&gt;Organization Admin=&gt;Manage Standard Components</p>
+
+    <p>Standard Components reflect the standard deliverables produced by your organization. These are the building blocks required for all projects undertaken. Typically this list is defined by the architectural patterns followed by your development team and the technology used in your projects. They can also include standard collateral materials produced by your project team at large. These units, and typical effort values for each unit, will comprise the productivity model for your organization. That Productivity Model will be the basis for all effort estimates generated using PMMODA.</p>
+
+    <p>Common values for deliverables might include things like: Web Form, Web Service, Custom Mobile Control, User Document, Business Object, Animation, visual Effect, etc. They will vary significantly by company and business area but should be very consistent across projects in a single organization.</p>
+
+    <table border="1" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th valign="top"><p><b>Field Name</b></p></th>
+                <th valign="top"><p><b>Description</b></p></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td valign="top"><p>Organization</p></td>
+                <td valign="top"><p>This combo box enumerates the defined organizations for the current company. Contents filtered based on permissions.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Standard Component</p></td>
+                <td valign="top"><p>This combo enumerates the defined Standard Components for the selected Organization. Select [Add New Standard Component] to add a new Unit.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Name</p></td>
+                <td valign="top"><p>The friendly name for the current Standard Component.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Description</p></td>
+                <td valign="top"><p>A concise explanation of the current unit. It should be obvious to the reader how this item might show up in a finished application.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Activity</p></td>
+                <td valign="top"><p>A list box enumerating the supported Activities for this organization. You should select the applicable Activities for each Standard Component. Standard Components can have different applicable Activities. For example, if your organization has a graphical design Activity defined this might be applicable for a Web Form unit but not a Web Service unit.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Active</p></td>
+                <td valign="top"><p>Check/uncheck this flag to enable/disable the current Standard Component. Disabling a unit value will also disable any scope models entries currently using that unit. This can affect the calculated project effort.</p></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <img src="images/StandardComponentManagement.png" style="width:500px;margin-top:40px;margin-bottom:40px;" />
+    <p><em>Figure 7: Standard Component Management Form</em></p>
+
+    <h2>2.7 Project Management</h2>
+
+    <p><b>Permissions</b>: Company Admin, Organization Admin (filtered by organization)</p>
+
+    <p><b>Menu</b>: Administration=&gt;Organization Admin=&gt;Manage Projects</p>
+
+    <p>Projects in PMMODA represent a collection of capabilities to be delivered to the end user. It might represent a complete functional set to be released to customers or incremental functionality that will be included in a future customer release. The structure of your projects will typically reflect your overall development methodology and the size and complexity of the systems you develop. Small internal applications, or agile projects with frequent releases, may be represented as a single project in PMMODA. High complexity enterprise applications or commercial applications with longer release cycles may want to define a project for each milestone or sprint.</p>
+
+    <table border="1" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th valign="top"><p><b>Field Name</b></p></th>
+                <th valign="top"><p><b>Description</b></p></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td valign="top"><p>Organization</p></td>
+                <td valign="top"><p>This combo box enumerates the defined organizations for the current company. Contents filtered based on permissions.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Project</p></td>
+                <td valign="top"><p>This combo enumerates the defined Projects for the selected Organization. Select [Add New Project] to add a new project.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Name</p></td>
+                <td valign="top"><p>The friendly name for the current natural project.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Description</p></td>
+                <td valign="top"><p>A concise explanation of the current project. This is the 1-2 sentence description of this project that you would share with external individuals or senior management.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Purpose</p></td>
+                <td valign="top"><p>An optional field to capture relevant information about the priorities or justification of this project.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Staffing</p></td>
+                <td valign="top"><p>A list box supplied to specify the staffing levels of the current project. This information will be used in conjunction with the effort model and overhead information to generate potential timelines for current project.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Active</p></td>
+                <td valign="top"><p>Check/uncheck this flag to enable/disable the current project. </p></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <img src="images/ProjectManagement.png" style="width:500px;margin-top:40px;margin-bottom:40px;" />
+    <p><em>Figure 8: Project Management Form</em></p>
+
+    <h2>2.8 Productivity models</h2>
+
+    <p><b>Permissions</b>: Group Member</p>
+
+    <p><b>Menu</b>: Productivity Model</p>
+
+    <p>The Productivity Model view provides a summary of the defined Standard Components for the current organization along with the typical effort required to produce a single instance of each unit. Figure 8 shows a representative view of the Standard Components defined for a typical web application. It includes all active Standard Components for the current organization, a description for each unit and the action controls to edit the details on each unit. </p>
+
+    <p>The effort numbers should reflect the numbers of hours required to perform the activity without interruption. The absolute effort associated with each line item in the productivity model will vary based on decisions made in your organization and the scale of the Standard Components chosen for your organization. However, best practice is to ensure that the effort numbers are small enough to assess accurately. Typical ranges for a Standard Component should be from a few hours to a few days. Additionally, note that effort numbers are always generated in units of hours. The primary purpose of this is to ensure that overhead does not get folded into the productivity numbers. Overhead is modeled separately and accounts for time spent on non-project activities.</p>
+
+    <img src="images/NaturalUnitSummaryView.png" style="width:800px;margin-top:40px;margin-bottom:40px;" />
+    <p><a name="_Ref432238796"><em>Figure </em></a><em>9: Standard Component Summary View</em></p>
+
+    <p>Figure 9 shows a sample productivity model for an organization with a single Activity defined. The typical effort for a low complexity, medium complexity and high complexity instances of the current unit. These numbers should be based on historical data from your previous projects. While the data needs to reflect your experience there are general practices that are good to follow. It is usually a good approach to have significant differentiation between the three complexity ratings. Research has shown that people are much better at bucketing items into non-linear buckets than linear buckets. This means that when generating your scope model there will be less ambiguity concerning the appropriate complexity bucket in which to group each deliverable.</p>
+
+    <img src="images/AgileProductivityModel.png" style="width:800px;margin-top:40px;margin-bottom:40px;" />
+    <p><a name="_Ref432239009"><em>Figure </em></a><em>10: Sample Single Activity Productivity Model</em></p>
+
+    <p>Figure 10 shows a productivity model for the same Standard Component which might exist in an organization with multiple Activities defined. Note that the total effort for each complexity is approximately the same across the two models and merely represent different approaches to ensuring completeness and accuracy in the model.</p>
+
+    <img src="images/TraditionalProductivityModel.png" style="width:800px;margin-top:40px;margin-bottom:40px;" />
+    <p><a name="_Ref432239331"><em>Figure </em></a><em>11: Sample Multi-Activity Productivity Model</em></p>
+
+    <h3>2.8.1 Actions</h3>
+
+    <table border="1" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th valign="top"><p><b>Action</b></p></th>
+                <th valign="top"><p><b>Method</b></p></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td valign="top"><p>View the productivity model for a specific Standard Component</p></td>
+                <td valign="top"><p>Click any cell in the row corresponding to the unit of interest. This will cause the row to be highlighted and the productivity model to show in the model view at the bottom of the page.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Create a new Standard Component for the current project</p></td>
+                <td valign="top"><p>This activity must be done using the Standard Component Management form described above.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Edit Standard Component details</p></td>
+                <td valign="top"><p>Click the Edit button in the “Action” column of the Standard Component Summary View.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Update productivity data for a specific Activity of the desired unit.</p></td>
+                <td valign="top"><p>Click the edit button of the targeted Activity in the productivity model view. This will put the form into edit mode as shown in Figure 11 below. Fill in the desired values for each complexity and click the “Save” button to apply the values</p></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <img src="images/EditableProductivityModel.png" style="width:800px;margin-top:40px;margin-bottom:40px;" />
+    <p><a name="_Ref432240364"><em>Figure </em></a><em>12: Productivity Model in edit mode.</em></p>
+
+    <h2>2.9 Effort Models</h2>
+
+    <p><b>Permissions</b>: Group Member</p>
+
+    <p><b>Menu</b>: Effort Model</p>
+
+    <p>The Effort model view is used to define the work breakdown structure (WBS) for the current project and create the scope model for the defined deliverables. The WBS for the current project should enumerate the customer perceivable capabilities delivered as part of this project. This list will largely be determined by the business domain of the current application and the standard architectural patterns followed in your development process. The view is hierarchical and supports an arbitrary level of detail in the model. The structure of this view should parallel the physical structure of the application and the major components delivered as part of this project. This view of the overall product under development is what enables the organization to perform a comprehensive review of the proposed scope and ensure that the model is complete. This WBS provides a transparent and discoverable outline of all capabilities required to meet customer expectations. The structure enables each team member to perform a detailed review of the application areas where they have significant expertise in order to ensure completeness. Additionally, the documentation of this information in a single accessible location ensures that the entire project team is working under the same set of scope assumptions. </p>
+
+    <p>The scope models defined for each deliverable provide a similar transparent and discoverable view of the effort required to produce each deliverable. Basing these estimates on a productivity model which has been reviewed and approved by the organization ensure a common understanding of the work scope associated with each deliverable. The structure again enables knowledgeable individuals to review each aspect of the project and ensure the complexity assumptions are reasonable based on the documented assumptions.</p>
+
+    <p>Figure 12 shows the primary view of the WBS which is used to track the propose work scope. This view includes the complete list of deliverables, a description for each deliverable, an optional cross reference to a specification or requirements document, the total effort associated with each deliverable and the remaining effort for each deliverable based on the original estimate and the current completeness percentage.</p>
+
+    <img src="images/WBS_View.png" style="width:800px;margin-top:40px;margin-bottom:40px;" />
+    <p><a name="_Ref432241801"><em>Figure </em></a><em>13: Effort Model View</em></p>
+
+    <p>Figure 13 shows a sample scope model for a representative deliverable. This view includes the following information:</p>
+
+    <ol>
+        <li>
+            <p>An entry for each Standard Component applicable to the current deliverable</p>
+
+        </li>
+        <li>
+            <p>The completion percentage for the current Standard Component of this deliverable</p>
+
+        </li>
+        <li>
+            <p>The assumptions used when generating the estimated complexity counts</p>
+
+        </li>
+        <li>
+            <p>The estimated count of low complexity, medium complexity and high complexity instances of this Standard Component</p>
+
+        </li>
+    </ol>
+    <img src="images/ScopeModelView.png" style="width:800px;margin-top:40px;margin-bottom:40px;" />
+    <p><a name="_Ref432242015"><em>Figure </em></a><em>14: Sample Scope Model</em></p>
+
+    <p>Figure 14 shows the summary effort graphs provided by PMMODA to quickly assess the remaining effort on the current project. There are two captured views including the Effort by Role and Effort by Standard Component. The Effort by Role view summarizes the remaining project effort categorized by the applicable roles on your project. This is calculated based on the Activities defined for this project and the effort defined in the aggregate scope model. It is intended for the purpose of rationalizing effort demands with resource allocations and enabling your management to understand the staffing requirements for the remainder of the project. The Effort by Standard Component shows the remaining effort categorized by Standard Component and enables an organization to compare project profiles against previous projects and to understand the nature of the remain deliverables on the project.</p>
+
+    <img src="images/EffortGraphs.png" style="width:300px;margin-top:40px;margin-bottom:40px;" />
+    <p><a name="_Ref432242351"><em>Figure </em></a><em>15: Summary Effort Graphs</em></p>
+
+    <h3>2.9.1 Actions</h3>
+
+    <table border="1" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th valign="top"><p><b>Field Name</b></p></th>
+                <th valign="top"><p><b>Description</b></p></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td valign="top"><p>Add a new deliverable to a parent</p></td>
+                <td valign="top"><p>Click the “Add” button (the “plus” icon in the second column) next to the parent of the new deliverable. This icon will only appear if there is no scope model defined for the parent deliverable since you can only create scope models at the leaf node level. You will need to delete all scope model entries if you want to add children to a deliverable node.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>View the scope model for a specific deliverable</p></td>
+                <td valign="top"><p>Click any cell in the row corresponding to the deliverable of interest. This will cause the row to be highlighted and the scope model to show in the model view at the bottom of the page.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Edit the details of a deliverable</p></td>
+                <td valign="top"><p>Click the “Edit” button in the action column of the deliverable of interest. This will create an editable row in place in the WBS view.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Expand a node of the Work Breakdown Structure</p></td>
+                <td valign="top"><p>Click the expansion icon “&gt;” in the first column of the WBS view.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Collapse a node in the Work Breakdown Structure</p></td>
+                <td valign="top"><p>Click the collapse icon “&lt;” in the first column of the WBS view.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Delete a deliverable</p></td>
+                <td valign="top"><p>Click the “Delete” button in the Action column of the deliverable you want to delete.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Create/Add a scope model for a selected deliverable</p></td>
+                <td valign="top"><p>Click the target deliverable to highlight the desired row and then click the increment button (the “plus” icon) to the right of the Scope Model title. This will create an entry row in the scope model view at the bottom of the page. Select the desired Standard Component type from the combo box, document the assumptions underlying this deliverable and enter the appropriate counts in the low, medium and high complexity count boxes. Click save to apply these changes or cancel to abandon the changes.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Update completion percentage on a scope model line item</p></td>
+                <td valign="top"><p>Click in the % Complete box for the targeted scope model line item and enter the desired % complete value. This value will be saved to the database when you tab out of the cell.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Refresh the Effort Model based on changes to the Scope Model or WBS.</p></td>
+                <td valign="top"><p>Click the “Refresh” button at the upper right of the page. This will reload all current data (including any changes made by other users) and recalculate the project summary statistics.</p></td>
+            </tr>
+
+            <tr>
+                <td valign="top"><p>Create a new Standard Component for the current project</p></td>
+                <td valign="top"><p>This activity must be done using the Standard Component Management form described above.</p></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <h2>2.10 Timeline</h2>
+
+    <p><b>Permissions</b>: Group Member</p>
+
+    <p><b>Menu</b>: Timeline</p>
+
+    <p>The timeline view shows the range of probably project timelines based on the current effort model, the defined overhead by role, the project staffing model and the documented completion percentage for the current project. This information is available by project. The timelines display represent resource loaded timelines (i.e. they do not account for critical path) determined by calculating the total planned effort and dividing by the available work hours to determine the approximate number of work days it will take to complete the project. There are two views provided including a waterfall, or sequential, model and a concurrent model.</p>
+
+    <p>The waterfall model assumes that all role specific activities are done sequentially (although you cannot define the sequence). This implies all work in a category is completed prior to beginning the next set of activities. This is the most pessimistic view of projected project duration and should represent something close to the upper limit for your project. Note that projects with an unusual high level of task dependencies or a significant set of overloaded critical resources can still exceed this pessimistic projection.</p>
+
+    <p>The concurrent model assumes all activities can be completed in parallel and that there are no dependencies between the work items. This is the most optimistic assumption and will very rarely be true for your project. This will provide the most optimistic estimate for your project.</p>
+
+    <p>Note that you should always create a detailed schedule for your project if you need maximum confidence in your estimates and need to account for critical resources or work item dependencies. These models are provided for the purpose of projecting probable project duration ranges which can be compared to the desired project schedule. This enables you to perform a reality check on project scope and duration prior to performing detailed project scheduling. With this information you can make informed high level business decisions related to scoping, resource investment and project duration earlier in the project lifecycle.</p>
+
+    <img src="images/TimelineView.png" style="width:800px;margin-top:40px;margin-bottom:40px;" />
+    <p><em>Figure 16: Project Timeline View</em></p>
+
+</body>
+</html>

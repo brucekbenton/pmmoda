@@ -1,0 +1,318 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Timeline</title>
+    <link href="Content/StyleSheet1.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="Scripts/CommonUtilities.js"></script>
+    <script src="Scripts/cookieManagement.js"></script>
+    <script src="Scripts/Response.js"></script>
+    <script src="Scripts/CommonConstants.js"></script>
+    <script src="Scripts/Staff.js"></script>
+    <script src="Scripts/cookieManagement.js"></script>
+    <script src="Scripts/statusBar.js"></script>
+
+</head>
+<body class="bodyStyle" onload="loadData()">
+    <div id="pageFrame" class="sprintStatusFrame" style="width:1500px;height:1000px">
+        <div class="pageHeader">
+            Project Timeline
+            <button class="refreshButton" onclick="loadData()">Refresh</button>
+        </div>
+        <!-- Create the main timeline DIV-->
+        <div id="waterfallTimelineLabel" class="timelineLabel" style="top:75px;"></div>
+        <!--        <div id="timeline" class="timelineContainer" style="top:100px;"></div>  -->
+        <div id="txtWaterfallWeek0" class="weekLabel" style="left:200px;top:160px;">Week 0</div>
+        <div id="txtWaterfallWeekN" class="weekLabel" style="left:950px;top:160px"></div>
+
+        <div id="timelineLabel" class="timelineLabel" style="top:225px;"></div>
+        <div id="timeline" class="timelineContainer" style="top:250px;"></div>
+        <div id="txtWeek0" class="weekLabel" style="left:200px;top:310px;">Week 0</div>
+        <div id="txtWeekN" class="weekLabel" style="left:950px;top:310px"></div>
+
+        <div class="graphLabel" style="left:50px;top:105px;width:10px">Waterfall Model</div>
+        <div class="graphLabel" style="left:50px;top:255px;width:10px">Concurrent Model</div>
+
+        <!-- Create the user overview info content for this page-->
+        <!--
+        <div  class="timelineOverview" style="left:900px;top:400px;background-color:transparent;padding-left:5px;padding-top:10px;">
+            The numbers here reflect the estimated time remaining based on the effort estimates and the % Complete
+            estimates.<br /><br />
+            The typical project duration will fall between that shown in the Waterfall model above and the
+            duration model below. These graphs represent best case timelines based on the
+            modeled effort, the specified staffing levels and the role based overhead. <br /><br />
+            They are not schedules and do not account for critical path dependencies or resource bottle necks.
+        </div>
+        -->
+
+        <div id="testFrame" class="controlPanel" style="top:400px;left:950px;height:350px;background-color:white">
+            <div style="background-color:transparent;margin-top:0px;padding-top:0px;" >
+                <div class="wizardRow" style="margin-top:10px;margin-bottom:15px;" >
+                    <div class="staffingLabel" style="margin-left:5px;width:150px;">Role</div>
+                    <div class="staffingLabel" style="width:100px;">Count</div>
+                </div>
+                <div id="dataContainer" style="margin-top:5px;width:290px;height:220px;background-color:transparent;overflow:auto"></div>
+                <button class="basicButton" style="margin-left:125px" onclick="updateStaffHandler()">Update</button>
+            </div>
+            <div id="timerBarRow" class="wizardRow">
+                <div id="statusLabelContainer" class="labelColumn" style="margin-left:10px;">
+                    <div>Status</div>
+                </div>
+                <div id="statusDisplayInput" class="inputColumn" style="left:70px;">
+                    <div id="timerBar" class="timerBar"></div>
+                </div>
+            </div>
+        </div>
+
+<!--
+        // Add a timer bar to track update status
+        $("<div id='timerBarRow'></div>").addClass("formRow").css({ 'margin-top': '0px' }).appendTo('#form');
+        $("<div id='statusLabelContainer'></div>").addClass("labelColumn").css({ 'font-weight': 'normal', 'margin-left': '100px' }).appendTo('#timerBarRow');
+        $("<div>Status</div>").appendTo("#statusLabelContainer");
+        $("<div id='statusDisplayInput'></div>").addClass("inputColumn").css({ 'left': '155px', 'margin-top': '5px' }).appendTo('#timerBarRow');
+        $("<div id='timerBar'></div>").addClass("timerBar").appendTo("#statusDisplayInput");
+-->
+
+        <div id="utilizationGraph" class="graphContainer">
+            <!-- Add the horizontal rules   -->
+            <hr class="graphRule" style="top:0px;width:600px;" />
+            <hr class="graphRule" style="top:60px;width:600px" />
+            <hr class="graphRule" style="top:120px;width:600px" />
+            <hr class="graphRule" style="top:180px;width:600px" />
+            <hr class="graphRule" style="top:240px;width:600px" />
+            <hr class="graphRule" style="top:60px;width:600px" />
+
+        </div>
+        <div class="graphLabel" style="left:50px;top:550px;">Utilization</div>
+        <div class="graphLabel" style="left:150px;top:390px;">100%</div>
+        <div class="graphLabel" style="left:150px;top:450px;">80%</div>
+        <div class="graphLabel" style="left:150px;top:510px;">60%</div>
+        <div class="graphLabel" style="left:150px;top:570px;">40%</div>
+        <div class="graphLabel" style="left:150px;top:630px;">20%</div>
+        <!-- Add the day lables-->
+        <div class="graphLabel" style="left:850px;top:550px;">Days</div>
+        <div id="dayLabel1" class="graphLabel" style="left:820px;top:390px;"></div>
+        <div id="dayLabel2" class="graphLabel" style="left:820px;top:450px;"></div>
+        <div id="dayLabel3" class="graphLabel" style="left:820px;top:510px;"></div>
+        <div id="dayLabel4" class="graphLabel" style="left:820px;top:570px;"></div>
+        <div id="dayLabel5" class="graphLabel" style="left:820px;top:630px;"></div>
+
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    var c_staffing = [];
+    var c_username;
+    // Declare a clas variable to store the timer control
+    var timerControl;
+
+
+    function loadData() {
+        var ProjectSummaryUrl = "/api/ProjectSummary";
+        var targetUrl;
+        // declre an array to store staffing data
+        var c_staffing = [];
+
+        // Get the current project ID
+        c_currentProjectID = getCookieProjectID();
+
+        orgID = getCookieOrgID();
+
+
+        targetUrl = ProjectSummaryUrl + "?ProjectID=" + c_currentProjectID + "&OrgID=" + orgID
+
+        $.ajax({
+            url: targetUrl,
+            type: 'GET',
+            dataType: 'json',
+        }).done(function (data, txtStatus, jqXHR) {
+            renderSummaryData(data);
+        }).fail(function (xhr, textStatus, errorThrown) {
+            alert("Insert Error");
+        });
+
+        // load a test spinner into the frame
+//        $('#spinner').spinner({ min: 2, max: 200, step: 1 }).css({ 'width': '50px' }).val(1).appendTo("#testFrame");
+        var currentCookie = document.cookie;
+        c_username = getCookieCurrentUser();
+        // reset the timer
+        if (timerControl != undefined) {
+            timerControl.Stop();
+        }
+        $("#timerBarRow").hide();
+    }
+
+    /// Render the timeline graphics and the utilization graph
+    function renderSummaryData(data) {
+        // Declare a local object to store the timeline width
+        var timelineWidth = 800;
+        // Declare a local object to store the baseline left offset
+        var leftOffset = 200;
+
+        var waterfallDuration = 0;
+        var maxDuration = 0;
+        var index = 0;
+
+        // Verify that there are resources assigned to this project
+        if (data.Duration > 0) {
+            // Calculate the waterfall duration
+            while (index < data.Utilization.length) {
+                if (maxDuration < data.Utilization[index].Duration) {
+                    maxDuration = data.Utilization[index].Duration;
+                }
+                waterfallDuration += data.Utilization[index].Duration;
+                index++;
+            }
+            // Add in the waterfall blocks
+            var width;
+            index = 0;
+            var cumulativeWdith = 200;
+            while (index < data.Utilization.length) {
+                width = data.Utilization[index].Duration / waterfallDuration * timelineWidth;
+                $("<DIV></DIV").addClass("timelineContainer").css({ 'top': '100px', 'left': cumulativeWdith, 'width': width }).appendTo("#pageFrame");
+                if (width > 0) {
+                    $("<DIV></DIV>").addClass("weekLabel").text(data.Utilization[index].Name).css({ 'top': '115px', 'left': cumulativeWdith + 15 }).appendTo("#pageFrame");
+                }
+                cumulativeWdith += width;
+                index++;
+            }
+
+            // Update the duration
+            $("#waterfallTimelineLabel").text("Duration: " + waterfallDuration.toFixed(0) + " days");
+            // Update the week labels
+            $("#txtWaterfallWeekN").text("Week " + (waterfallDuration / 5).toFixed(0));
+
+            // Update the duration
+            $("#timelineLabel").text("Duration: " + maxDuration.toFixed(0) + " days");
+            // Update the week labels
+            $("#txtWeekN").text("Week " + (maxDuration / 5).toFixed(0));
+            // Update the width of the congruent timeline
+            var width = timelineWidth * (maxDuration / waterfallDuration);
+            $("#timeline").css({ 'width': width });
+            // Move the end week position
+            leftOffset += (width - 50);
+            $("#txtWeekN").css({ 'left': leftOffset })
+
+            // Update the day labels
+            $("#dayLabel1").text(maxDuration.toFixed(0));
+            $("#dayLabel2").text((maxDuration * .8).toFixed(0));
+            $("#dayLabel3").text((maxDuration * .6).toFixed(0));
+            $("#dayLabel4").text((maxDuration * .4).toFixed(0));
+            $("#dayLabel5").text((maxDuration * .2).toFixed(0));
+
+            // Delete any existing labels
+            index = 0;
+            while (index < data.Utilization.length) {
+                $("#label" + index).remove();
+                index++;
+            }
+            // Update the role utilization graphs
+            index = 0;
+            while (index < data.Utilization.length) {
+                // Write a column for each role
+                var node;
+                node = "'left':'" + (index + 1) * 50 + "';'height':'300px'";
+                $("<DIV id='roleBar" + index + "'></DIV>").addClass('utilizationBar').appendTo("#utilizationGraph");
+                var offset = 300 * data.Utilization[index].Utilization;
+                var margin = 300 - offset;
+                var leftOffset = (index * 100) + 20
+                $("#roleBar" + index).css({ 'left': leftOffset, 'height': 300 * data.Utilization[index].Utilization, 'margin-top': margin });
+                //            <div class="utilizationBar" style="left:50px;height:300px"></div>
+                // Write in the label
+                var labelOffset = leftOffset - (data.Utilization[index].Name.length / 2) * 5;
+                $("<DIV id='label"+index +"'></DIV>").addClass("roleLabel").css({ 'left': labelOffset, 'top': '350px' }).appendTo("#utilizationGraph");
+                $("<textarea></textarea>").css({ 'width': '80px', 'height': '50px', 'border': '0px', 'overflow': 'hidden' }).text(data.Utilization[index].Name).appendTo("#label" + index);
+                index++;
+            }
+            // Load teh staffing count
+            var activeRolePromise;
+            activeRolePromise = loadStaffByProject(c_currentProjectID, renderControlPanel, pmmodaErrorHandler);
+//            activeRolePromise.done(function () { renderControlPanel($("#dataContainer"), data.Utilization); });
+            
+        }
+        else {
+            alert("There must be resources assigned to the project to display a timeline. Go to Administration->Organization Admin -> Manage Projects in order to specify staffing levels.");
+        }
+    }
+
+    // Declare a funciton to render the staffing control panel to model utilization and timelines
+    function renderControlPanel(data) {
+
+        var index = 0;
+        var parent = $("#dataContainer");
+
+        while (index < data.length) {
+            // Delete any existing controls
+            $("#row" + index).remove();
+//            c_staffing[data[index].MasterRoleID] = data[index];
+            c_staffing[index] = data[index];
+
+            // Add a control panel row for each role
+            $("<div id='row" + index + "' ></div>").css({ 'margin-left': '10px', 'margin-top': '5px', 'width': '90%', 'height': '25px', 'background-color': 'transparent' }).appendTo(parent);
+            $("<div id='role" + index + "'></div>").addClass('staffingLabel').css({ 'width': '150px', 'overflow': 'hidden', 'white-space': 'nowrap' }).text(data[index].RoleName).appendTo("#row" + index);
+            $("<div id='countContainer" + index + "'></div>").css({ 'width': '70px', 'background-color': 'transparent' }).addClass('staffingLabel').appendTo("#row" + index);
+            $("<INPUT type='text'  id='txtCount" + data[index].MasterRoleID + "' ></INPUT>").css({'margin-left':'10px', 'width': '40px','text-align':'right' }).val(data[index].Count).appendTo('#countContainer' + index);
+//            $("#txtCount" + data[index].MasterRoleID).onkeyup(this.value=this.value.replace(/[^0-9.]/,''));
+            $("#txtCount" + data[index].MasterRoleID).focusout({ param1: data[index].MasterRoleID,param2:index }, validateCount);
+
+//            this.value=this.value.replace(/[^\d]/,'')">
+
+            index++;
+        }
+    }
+
+    function updateStaffHandler() {
+        var index = 0;
+        // disabled the login button to avoid multiple events
+//        $("#btnLogin").prop('disabled', true);
+        $("#timerBarRow").show();
+        timerControl = new statusBar();
+        timerControl.Control = $("#timerBar");
+        timerControl.Interval = 80;
+        timerControl.Start();
+
+        updateStaffingCounts(c_currentProjectID[0],c_staffing,loadData,pmmodaErrorHandler);
+
+    }
+
+    // Declare a function to validate the input staffing value
+    function validateCount(event) {
+        /*
+        var newStr = "";
+        // declare a flag to set once a decimal has been observed
+        var decimal = false;
+        if (event.key > '9' && event.key != '.')
+        {
+            newStr = this.value.replace(event.key, '');
+            this.value = newStr;
+        }
+        */
+
+        
+        var ID = event.data.param1;
+        var index = event.data.param2;
+        var value;
+        var re = new RegExp("^[0-9]+(\.[0-9]{1,2})?$");
+        var status;
+
+        // Declare a regular expression to use validating the input
+
+        value = $("#txtCount" + ID).val();
+        // verify that there are no non digit characters in the string
+        status = re.test(value);
+
+        if (!status) {
+            alert("The count field must match a decimal format with an arbitrary number of digits before the decimal and at most 2 digits after the decimal. Please update the value.")
+        }
+        else {
+            c_staffing[index].Count = value;
+        }
+
+        
+    }
+
+
+</script>
+

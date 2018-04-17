@@ -1,0 +1,1178 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="Content/StyleSheet1.css" rel="stylesheet" />
+<!--     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!--    <script type="text/javascript" src="/jquery-1.10.2.js"></script>  -->
+<!--    <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script> -->
+<!--    <script type="text/javascript" src="date.js"></script> -->
+    <script src="http://code.createjs.com/easeljs-0.7.1.min.js"></script>
+    <script src="Scripts/cookieManagement.js"></script>
+    <script src="Scripts/CommonConstants.js"></script>
+    <script src="Scripts/Project.js"></script>
+    <script src="Scripts/Deliverable.js"></script>
+    <script src="Scripts/deliverableDisplay.js"></script>
+    <script src="Scripts/ContextMenu.js"></script>
+    <script src="Scripts/menuOption.js"></script>
+    <script src="Scripts/scopeModelControl.js"></script>
+    <script src="Scripts/DeliverableModel.js"></script>
+    <script src="Scripts/organization.js"></script>
+    <script src="Scripts/NaturalUnitModel.js"></script>
+    <script src="Scripts/ProjectDetailForm.js"></script>
+    <script src="Scripts/CommonUtilities.js"></script>
+    <script src="Scripts/NaturalUnitEffortModel.js"></script>
+    <script src="Scripts/DimensionModel.js"></script>
+    <script src="Scripts/RoleEffortModel.js"></script>
+    <script src="Scripts/ModelExportForm.js"></script>
+    <script src="Scripts/StatusBarForm.js"></script>
+    <script src="Scripts/statusBar.js"></script>
+    <script src="Scripts/Response.js"></script>
+
+</head>
+<body id="ScopeModelBody" class="bodyStyle" onload="loadData()">
+        <div id="pageFrame" class="sprintStatusFrame" style="width:1500px;height:1000px">
+            <div class="pageHeader">
+                Effort Modeling
+                <button class="refreshButton" onclick="loadData()">Refresh</button>
+                <button class="refreshButton" onclick="GenerateSummaryReportHandler()">Export</button>
+            </div>
+            <div class="divHeader">Work Breakdown Structure</div>
+            <div class="wbsDiv" style="height:500px">
+                <table id="wbsTable" class="wbsContainer" style="width:1050px;" >
+                    <thead>
+                        <tr>
+                            <th class="hidden" style="width:0px">ID</th>
+                            <th class="expander"></th>
+                            <th class="addChild"></th>
+                            <th class="deliverableColumn">Deliverable</th>
+                            <th class="deliverableDescriptionColumn" style="width:400px">Description</th>
+                            <th class="crossReferenceColumn">Cross Ref</th>
+                            <th class="deliverableEffortColumn">Total Effort (Hours)</th>
+                            <th class="deliverableEffortColumn">Effort Remaining(Hours)</th>
+                            <th class="deliverableEffortColumn">Total Cost($)</th>
+                            <th class="deliverableEffortColumn">Cost Remaining($)</th>
+                            <th class="twoButtonColumn">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="wbsBody"></tbody>
+                </table>
+            </div>
+
+            <!-- Drop in the Role Based Effort cumulative effort graph here-->
+            <button id="reportToggle" type="button" class="refreshButton" style="position:absolute;left:1351px;top:83px;width:125px;" onclick="showReports()">Show Reports</button>
+            <div id='reportContainer' class="reportInactive" >
+                <div id="effortReports" style="float:left;margin-top:25px;margin-left:10px; width:400px;background-color:transparent;">
+                    <div id="RoleBasedGraphContainer" style="border:solid 1px;width:400px;height:250px;background-color:transparent;overflow:hidden">
+                        <div id="roleLabel" style="margin-left:40px" class="roleLabel">Loading...</div>
+                        <canvas id="roleGraph" style="margin-top:25px;width:400px;height:200px;background-color:transparent"></canvas>
+                        <div id="legendContainer" style="margin-left:10px;width:175px;height:175px;background-color:transparent"></div>
+                    </div>
+                    <div id="UnitBasedGraphContainer" style="margin-top:5px;border:solid 1px;width:400px;height:250px;background-color:transparent;overflow:hidden">
+                        <div id="unitLabel" style="margin-left:40px;" class="roleLabel">Loading...</div>
+                        <canvas id="unitGraph" style="margin-top:25px;width:400px;height:200px;background-color:transparent"></canvas>
+                        <div id="unitLegendContainer" style="margin-left:10px;width:200px;height:175px;background-color:transparent"></div>
+                    </div>
+                </div>
+                <div id="costReports" style="float:left;margin-top:25px;margin-left:10px;width:380px;background-color:transparent;">
+                    <div id="RoleBasedCostContainer" style="border:solid 1px;width:400px;height:250px;background-color:transparent;overflow:hidden">
+                        <div id="roleCostLabel" style="margin-left:40px" class="roleLabel">Loading...</div>
+                        <canvas id="roleCostGraph" style="margin-top:25px;width:400px;height:200px;background-color:transparent"></canvas>
+                        <div id="legendCostContainer" style="width:200px;height:175px;background-color:transparent"></div>
+                    </div>
+                    <div id="UnitBasedCostContainer" style="margin-top:5px;border:solid 1px;width:400px;height:250px;background-color:transparent;overflow:hidden">
+                        <div id="unitCostLabel" style="margin-left:40px;" class="roleLabel">Loading...</div>
+                        <canvas id="unitCostGraph" style="margin-top:25px;width:400px;height:200px;background-color:transparent"></canvas>
+                        <div id="unitLegendCostContainer" style="display:inline;width:200px;height:175px;background-color:transparent"></div>
+                    </div>
+                </div>
+            </div>
+             <div class="selectionContainer">Scope Model
+                    <img src="images/incrementButton.png" class="incrementImage" onclick="assignNaturalUnit()" />
+             </div>
+            <div class="scopeModelDiv" style="height:300px">
+                <table id="scopeModelTable" class="wbsContainer">
+                    <thead>
+                        <tr>
+                            <th class=" hidden" style="width:0px">
+                                ID
+                            </th>
+                            <th class="unitName">Natural Unit</th>
+                            <th class="percentCompleteColumn">% Comp</th>
+                            <th class="assumption">Assumption</th>
+                            <th class="effortCount">Low Count</th>
+                            <th class="effortCount">Med Count</th>
+                            <th class="effortCount">Hi Count</th>
+                            <th class="effortCount">Iteration Count</th>
+                            <th class="buttonColumn">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scopeModelBody"></tbody>
+                </table>
+            </div>
+
+        </div>
+
+</body>
+    <script type="text/javascript">
+        "use strict"
+
+        var userID = 1; // Currently hadrdcoding user ID to my ID
+        var ProjectUrl = "/api/project";
+        var DeliverableUrl = "/api/deliverable";
+        var DeliverableModelUrl = "/api/DeliverableModel";
+        var NaturalUnitModelUrl = "/api/NaturalUnitModel";
+        var naturalUnitUrl = "/api/NaturalUnit"
+        var ProjectSummaryUrl = "/api/ProjectSummary";
+
+        var deliverableDepth = 0;
+        var deliverables = [];
+        // Declare an object to indicate whether the optio menu is current active
+        var optionMenuActive = false;
+        // Declare an object to store the current project
+        // Declare an object to store the currently selected deliverable
+        var currentDeliverable;
+        var orgID = 0;
+        // Declare a local variable to store the current organization information
+        var currentOrg;
+        // Declare an object to hold the USer ID. This is hard coded to my alias until authentication is enabled
+        var UserID = 1;
+        // Declare an object to store the productivity model for the current project
+        var productivityModel = [];
+        // Declare an array to store the role based cumulative effort
+        var roleBasedEffort = [];
+        // Declare a module variable to track when deliverable editing or inserting is active
+        var deliverableInsert = false;
+
+        // Declare an object to indicate the productivity model has been loaded
+        var myDeferred;
+        // Declare an object to indicate the deliverable data has been loaded
+        var deliverableLoaded = new $.Deferred();
+        // DEclare a variable to contain the aggregate total effort for the current WBS
+        var c_totalEffort = 0;
+        // Declare a variable to contain the aggregate effort remaining
+        var c_effortRemaining = 0;
+        // Declare a vraiable to contain the total cost for teh current WBS
+        var c_totalCost = 0;
+        // Declrae a variable to store the total reamining cost for teh current WBS
+        var c_costRemaining = 0;
+        // Declare an object to indicate that the form is currently in edit mode
+        var deliverableEdit = false;
+        // Declare an object to indicate that the scope model is in Edit Mode
+        var scopeModelEditMode = false;
+        // Declare an object to specify whether the current row operation is an expansion or a collapse
+        var expandNode;
+        // Declare a variable to hold the calculated total effort aof all children rolling up to the current row
+        var c_rowEffort;
+        // Declare an object to contain the current project ID
+        var c_currentProjectID;
+        // Declare a Deferred instance to block pending the load of the Productivity Model
+        var productivityDeferred;
+        // declare a deferred object to track when the screen has been refreshed
+        var displayDeferred;
+        // Declare a local object to store the graph color array
+        var colors = new Array("orange", "yellowgreen", "#80C1DD", "#639e4b", "#4b9e5c", "#4b9e85", "#4b8d9e", "#4b639e", "#5c4b9e", "#854b9e", "#9e488d", "#9e4b63");
+
+        // Declare a page level control to store the status bar form
+        var statusBarForm;
+        var reportsVisible = false;
+
+
+        function showReports() {
+            if (!reportsVisible) {
+                $("#reportContainer").removeClass('reportInactive').addClass('reportActive');
+                $("#reportToggle").text("Hide Reports");
+                reportsVisible = true;
+            }
+            else
+            {
+                $("#reportContainer").addClass('reportInactive').removeClass('reportActive');
+                $("#reportToggle").text("Show Reports");
+                reportsVisible = false;
+            }
+        }
+        function GenerateSummaryReportHandler() {
+            var form = new ModelExportForm();
+            form.Show();
+        }
+ 
+
+        function collapseRowsHandler(event) {
+            var deliverable = event.data.param1;
+            currentDeliverable = deliverable;
+            c_rowEffort = 0;
+            // Check to see if this is an expand or contract operations
+            if ($("#expander" + deliverable.ID).text() == "<") {
+                expandNode = 0;
+            }
+            else {
+                expandNode = 1;
+            }
+            collapseRows(deliverable,expandNode);
+        }
+
+        function collapseRows(deliverable,mode) {
+            // Check to see if the selected row is currently collapsed
+            if (deliverable.Children != undefined) {
+                if (!mode) {
+                    // Update the wbs symbol
+                    $("#expander" + deliverable.ID).text(">");
+                    for (var index = 0; index < deliverable.Children.length; index++) {
+                        //                $("#row" + deliverable.ID).hide();
+                        $("#row" + deliverable.Children[index].ID).hide();
+                        // Check to see if this node has children and collapse those
+                        if (deliverable.Children[index].hasChildren) {
+                            collapseRows(deliverable.Children[index], mode);
+                        }
+                        else {
+                            // Update the cumulative effort for the collapsed row
+                            // exclude rows without any effort
+                            if (deliverable.Children[index].Effort > 0) {
+                                c_rowEffort += deliverable.Children[index].Effort;
+                            }
+                        }
+                    }
+                    // Update the effort value for the collapsed row in the WBS table
+                    $("#effort" + deliverable.ID).text(c_rowEffort.toFixed(0));
+                }
+                else {
+                    $("#expander" + deliverable.ID).text("<");
+                    for (var index = 0; index < deliverable.Children.length; index++) {
+                        //                $("#row" + deliverable.ID).hide();
+                        $("#row" + deliverable.Children[index].ID).show();
+                        // Check to see if this node has children and collapse those
+                        if (deliverable.Children[index].hasChildren) {
+                            collapseRows(deliverable.Children[index],mode);
+                        }
+                    }
+                    // Reset the effort value for the previously collapsed row
+                    $("#effort" + deliverable.ID).text(" ");
+                }
+            }
+        }
+
+        function loadData() {
+            var targetUrl;
+
+            // Update the frame size based on the current document dize
+            var height = $(document).height();
+            height = .95 * height;
+            // Size the form content for the current document
+            $("#pageFrame").css({ "height": height });
+
+            var width = $(window).width();
+//            $("#temp").text(width.toFixed(2));
+            width = .95 * width;
+            // Make sure the tabels are empty
+            resetDisplay();
+
+            // reset the edit flags
+            deliverableInsert = false;
+            deliverableEdit = false;
+            scopeModelEditMode = false;
+
+            // reset the data collections
+            deliverables.length = 0;
+            productivityModel.length = 0;
+
+            orgID = getCookieOrgID();
+
+            if (orgID != 0) {
+
+                // manage the status bar
+                statusBarForm = new StatusBarForm();
+                statusBarForm.Show();
+
+                // Load the productivity models for the current organization
+                targetUrl = ProductivityModelUrl + "/" + orgID;
+                var myOrg = new Organization();
+
+                // Create a deferred to track when the productivity data has been loaded
+                myDeferred = new $.Deferred();
+
+                //                myOrg.loadData(orgID, targetUrl, loadProductivityModel);
+                // TBD - Implement Deferred here to block call to LoadWBS until this call is completely processes
+                productivityDeferred = new $.Deferred();
+
+                loadProductivityModel(orgID, populateProductivityModel,pmmodaErrorHandler);
+            }
+
+            // Get the current project ID
+            c_currentProjectID = getCookieProjectID();
+
+            //            var optionID = $("#projectList").val();
+            $.when(productivityDeferred).then(function () {
+
+                if (c_currentProjectID > 0) {
+                    deliverableLoaded = new $.Deferred();
+                    displayDeferred = $.Deferred();
+//                    displayDeferred = $.when();
+                    var promise = loadDeliverablesByProject(c_currentProjectID, populateWBS, errorHandler);
+//                    loadWBS(c_currentProjectID);
+//                    $.when(promise).then(refreshWBSDisplay);
+                    $.when(deliverableLoaded).then(refreshWBSDisplay);
+//                    resetGraph();
+                    renderRoleBasedGraph();
+                    renderUnitBasedGraph();
+                    // close the status form
+                    statusBarForm.Close();
+                    // check to see if there should be a deliverable highlighted
+                    if (currentDeliverable != undefined) {
+                        $.when(displayDeferred).then(function () {
+                            highlightRow(currentDeliverable)
+                        });
+ //                       displayDeferred.then(highlightRow(currentDeliverable));
+//                        $.when(displayRefreshed).then(highlightRow(currentDeliverable));
+                    }
+                }
+            });
+            scopeModelEditMode = false;
+            return (deliverableLoaded);
+        }
+
+        function loadProductivityModel(ID, callback, errorHandler) {
+            var promise;
+
+            var targetUrl = ProductivityModelUrl + "/" + ID;
+
+            var token = sessionStorage.getItem(tokenKey);
+            var headers = {};
+            if (token) {
+                headers.Authorization = 'Bearer ' + token;
+            }
+
+            // Check to make sure the org ID is defined
+            promise = $.ajax({
+                url: targetUrl,
+                type: 'GET',
+                dataType: 'json',
+                headers: headers,
+                success: function (data, txtStatus, xhr) {
+                    callback(data);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    errorHandler(xhr, 1010);
+                }
+            });
+            return (promise);
+        }
+
+        function errorHandler(response) {
+            if (response.status == 401) {
+                alert("The current user does not have permissions to load the projects for this organization. Please see your administrator")
+            }
+            else {
+                alert("unspecified error occurred on Web Service Call");
+            }
+        }
+
+
+        function populateProductivityModel(data) {
+            var myData = data;
+            var currentNaturalUnitID;
+            //            alert("inside deferred function call");
+
+            // Loop over the data and construct the productivity model
+            var index = 0;
+            while (index < data.length) {
+                // Always create a new NaturalUnitModel on the first record
+                if (index == 0) {
+                    var naturalUnitModel = new NaturalUnitEffortModel();
+                    // Initialize the Unit ID
+                    naturalUnitModel.ID = data[index].UnitID;
+                    // Add the new model to the productivity collection
+                    productivityModel.push(naturalUnitModel);
+
+                }
+                else {
+                    // Check to see if the current unit already has a model
+                    naturalUnitModel = getUnitModel(data[index].UnitID);
+                    // Check to see if the new unit was found
+                    if (naturalUnitModel == undefined) {
+                        // This is a new natural unit so create a new model
+                        var naturalUnitModel = new NaturalUnitEffortModel();
+                        // Initialize the Unit ID
+                        naturalUnitModel.ID = data[index].UnitID;
+                        // Add the new model to the productivity collection
+                        productivityModel.push(naturalUnitModel);
+                    }
+//                    else {
+//                    }
+                }
+                // create an instance of a model for the current dimension
+                var dimModel = new DimensionModel();
+                // Capture the current Dimension ID
+                dimModel.ID = data[index].DimensionID;
+                dimModel.Name = data[index].DimensionName;
+                dimModel.MasterRoleID = data[index].MasterRoleID;
+                // Initialize the RoleID data
+                dimModel.RoleID = data[index].RoleID
+                // Initialize the bill rate for the current entry
+                dimModel.BillRate = data[index].BillRate;
+                // Store the nominal effort for the set of difficulties. TBD - Currently hard coded to 3 levels
+                dimModel.Effort[0] = data[index].LoNominalEffort;
+                dimModel.Effort[1] = data[index].MedNominalEffort;
+                dimModel.Effort[2] = data[index].HiNominalEffort;
+                // Store the dimension model in the current NAtural Unit Model
+                naturalUnitModel.DimensionModel.push(dimModel);
+
+                index++;
+            }
+            // resolve the deferred object created to synchronize the productivity model and the deliverable data
+            myDeferred.resolve();
+            productivityDeferred.resolve();
+        }
+
+
+        /// Declare a function to get the NaturalUnitModel corresponding to the passed in unit ID
+        function getUnitModel(ID) {
+            var index = 0;
+            var selectedModel;
+
+            while (index < productivityModel.length) {
+                if (ID == productivityModel[index].ID) {
+                    selectedModel = productivityModel[index];
+                    break;
+                }
+                index++;
+            }
+            return (selectedModel);
+        }
+
+        // Declare a function to add an additional natural unit to a defined deliverable
+        function assignNaturalUnit() {
+            // make sure the deliverable is not null
+            if (currentDeliverable != undefined) {
+                if (currentDeliverable.ID > 0) {
+                    var form = new scopeModelControl();
+
+                    form.addEmptyRow(orgID, currentDeliverable);
+                }
+            }
+            else {
+                alert("You mist select a deliverable before you can create a Scope model.");
+            }
+
+        }
+
+
+        // Refresh the WBS display form
+        function refreshWBSDisplay() {
+            // loop over the entries in the deliverables collection
+            for (var index = 0; index < deliverables.length; index++) {
+                // Add a table entry for the current deliverable.
+                var newRow = new deliverableDisplay();
+                newRow.add(userID, deliverables[index]);
+//                totalEffort += deliverables[index].Effort
+            }
+            // Add a row with the total effort
+            var totalDeliverable = new Deliverable;
+            totalDeliverable.ID = 0;
+            totalDeliverable.Name = "Total";
+//            totalDeliverable.ParentID = 0;
+            totalDeliverable.Effort = c_totalEffort;
+            totalDeliverable.EffortRemaining = c_effortRemaining;
+            totalDeliverable.Cost = c_totalCost;
+            totalDeliverable.CostRemaining = c_costRemaining;
+            totalDeliverable.Total = true;
+            totalDeliverable.ParentID = -1;
+            var newRow = new deliverableDisplay();
+            newRow.add(userID, totalDeliverable);
+            displayDeferred.resolve();
+        }
+
+        /// Clear the current highlighted row in the WBS display
+        function resetDisplayHighlight() {
+            var table;
+            var count = 0;
+            // Reset the background for each data row in the table
+            $('#wbsTable tr').each(function () {
+                // Skip the header row
+                if (count > 0) {
+                    $(this).css({ "background": "linear-gradient(white,white)" });
+                }
+                // Increment the counter
+                count++;
+            });
+
+        }
+
+        ///  Delete all the rows of the deliverabl display
+        function resetDisplay() {
+            var table;
+            var count = 0;
+            // Reset the background for each data row in the table
+            $('#wbsTable tr').each(function () {
+                // Skip the header row
+                if (count > 0) {
+//                    $(this).css({ "background": "linear-gradient(white,white)" });
+                    $(this).remove();
+                }
+                // Increment the counter
+                count++;
+            });
+
+
+        }
+
+
+        function updateWBSHandler(event) {
+            var dummy = 7;
+//            $.when(myDeferred).then(updateWBS(event));
+            updateWBS(event);
+            //            $.when(myDeferred).then(updateWBS(event.data.param1.ID));
+        }
+
+        
+
+        /// Declare a function to reload the current WBS data and refresh the screen
+//        function updateWBS(optionID) {
+        function updateWBS() {
+            var promise;
+
+            resetDisplay();
+            // reset the scope model display also
+            resetScopeModelDisplay();
+
+            // Get the current project ID
+            c_currentProjectID = getCookieProjectID();
+
+            if (c_currentProjectID > 0) {
+                promise = loadDeliverablesByProject(c_currentProjectID, populateWBS, errorHandler);
+//                loadWBS(c_currentProjectID);
+                $.when(deliverableLoaded).then(refreshWBSDisplay);
+            }
+        }
+
+
+        function populateWBS(data) {
+            var userID = 1;
+            var previousDeliverableID = -1;
+            deliverables.length = 0;
+
+            c_totalEffort = 0;
+            c_effortRemaining = 0;
+            c_totalCost = 0;
+            c_costRemaining = 0;
+            // Load the deliverable data for the current project
+            var index = -1;
+
+                    $.each(data, function (key, value) {
+                        // Filter out the repeats due to the join on the deliverable model table
+                        if (value["ID"] != previousDeliverableID) {
+                            index++;
+                            var newDeliverable = new Deliverable();
+                            // make sure the Scope model is empty
+                            $(newDeliverable.ScopeModel).empty();
+                            newDeliverable.ID = value["ID"];
+                            newDeliverable.ParentID = value["ParentID"];
+                            newDeliverable.ProjectID = value["ProjectID"];
+                            newDeliverable.Name = value["Name"];
+                            newDeliverable.Description = value["Description"];
+                            newDeliverable.Effort = -1;
+                            newDeliverable.EffortRemaining = -1;
+                            newDeliverable.Cost = -1;
+                            newDeliverable.CostRemaining = -1;
+                            newDeliverable.hasChildren = value["hasChildren"];
+                            newDeliverable.CrossReference = value["CrossReference"];
+                            // Get the parent for the current node
+                            if (newDeliverable.ParentID != 0) {
+                                newDeliverable.Parent = getDeliverableParent(newDeliverable.ParentID);
+                                newDeliverable.Parent.Children.push(newDeliverable);
+                            }
+                            deliverables.push(newDeliverable);
+                            // Add a table entry for the current deliverable.
+                            //                            var newRow = new deliverableDisplay();
+                            //                            newRow.add(userID, newDeliverable);
+                            // update the previous deliverable to the current value
+                            previousDeliverableID = newDeliverable.ID;
+                        }
+
+                        // check to see if this record has a valid scope model
+                        if (value["modelActive"]) {
+                            // Create the deliverable model record
+                            var newValue = new DeliverableModel();
+
+                            newValue.ID = value["DeliverableModelID"];
+                            newValue.NaturalUnitID = value["NaturalUnitID"];
+                            newValue.NaturalUnitName = value["NaturalUnitName"];
+                            newValue.Assumptions = value["Assumptions"];
+                            newValue.LowCount = value["LowCount"];
+                            newValue.MedCount = value["MedCount"];
+                            newValue.HighCount = value["HighCount"];
+                            newValue.IterationCount = value["IterationCount"];
+                            newValue.PercentComplete = value["PercentComplete"];
+                            // Add the model record to the Model array in the current deliverable record. The "index" value is only
+                            //  incremented on the first instance of the new deliverable
+                            deliverables[index].ScopeModel.push(newValue);
+                        }
+                        // Update the currentDeliverable in case values have changed
+                        if (currentDeliverable != undefined) {
+                            if (currentDeliverable.ID == deliverables[index].ID) {
+                                currentDeliverable = deliverables[index];
+                            }
+                        }
+                    });
+
+                    // Loop over deliverables one more time to calculate effort
+                    for (var index2 = 0; index2 < deliverables.length; index2++) {
+                        var localDeliverable = deliverables[index2];
+                        // Calculate the projected effort for leaf node deliverables (deliverables without children)
+                        if (localDeliverable.hasChildren == false) {
+                            // Check to see if there is a scope model defined
+                            if (localDeliverable.ScopeModel.length > 0) {
+                                var effortObj = calculateEffort(localDeliverable)
+                                localDeliverable.Effort = effortObj.TotalEffort;
+                                localDeliverable.EffortRemaining = effortObj.RemainingEffort;
+                                localDeliverable.Cost = effortObj.TotalCost;
+                                localDeliverable.CostRemaining = effortObj.RemainingCost;
+                                c_totalEffort += localDeliverable.Effort;
+                                c_effortRemaining += localDeliverable.EffortRemaining;
+                                c_totalCost += localDeliverable.Cost;
+                                c_costRemaining += localDeliverable.CostRemaining;
+                            }
+                        }
+                    }
+                    // resove the deliverable loaded deferred
+                    deliverableLoaded.resolve();
+//                });
+        }
+
+        /// Declare a function which will calculate the effort for a deliverable based on the org productivity model and the scope model defined for this deliverable
+        function calculateEffort(deliverable) {
+            var effortObject;
+            var totalEffort = 0;
+            var effortRemaining = 0;
+            // Declare an object to store the total cost for the current deliverable
+            var totalCost = 0;
+            // Declare an object to store the total remaining cost for the current deliverable
+            var costRemaining = 0;
+            var referenceModel = [];
+
+            var effortObject = new Object();
+            // reference the delvierable in the effort Object
+            effortObject.deliverable = deliverable;
+
+            // Loop over the natural units in the current deliverabl scope model
+            for (var index = 0; index < deliverable.ScopeModel.length; index++) {
+                // Update the unit count variables
+                // TBD - This is hard coded to the current compelxity count
+                var lowCount = deliverable.ScopeModel[index].LowCount;
+                var medCount = deliverable.ScopeModel[index].MedCount;
+                var hiCount = deliverable.ScopeModel[index].HighCount;
+                // Make sure there are actual unit counts defined 
+                // TBD - This is hardcoded to the current complexity count of three
+                if (lowCount + medCount + hiCount > 0) {
+
+                    // find the productivity model for the current natural unit. Arbitrarily check this for the first role since all roles should be 
+                    //  for the same natural unit
+
+                    referenceModel = getArrayValue(productivityModel, deliverable.ScopeModel[index].NaturalUnitID);
+
+                    // Loop over the dimensions in the current Natural Unit
+                    if (referenceModel != undefined) {
+                        var dimIndex = 0;
+                        while (dimIndex < referenceModel.DimensionModel.length) {
+                            // Calculate the effort based on the dimension claibration data and the deliverable count
+                            var complexityIndex = 0;
+
+                            // Declare a variable to store the effort for the current activity dimension
+                            var effort = 0;
+                            // Declare a variable to store the remaining effort for the current activity dimension
+                            var remEffort = 0;
+                            // declare a variable to store the cost for teh current activity dimension
+                            var cost = 0;
+                            // Declare a variable to store teh remaining cost for the current activity dimension
+                            var remCost = 0;
+
+                            effort = referenceModel.DimensionModel[dimIndex].Effort[0] * deliverable.ScopeModel[index].LowCount +
+                                        referenceModel.DimensionModel[dimIndex].Effort[1] * deliverable.ScopeModel[index].MedCount +
+                                        referenceModel.DimensionModel[dimIndex].Effort[2] * deliverable.ScopeModel[index].HighCount;
+
+                            // multiply the effort by the iteration count
+                            effort = effort * deliverable.ScopeModel[index].IterationCount
+                            // Calculate the cost corresponding to the current bill rate
+                            cost = effort * referenceModel.DimensionModel[dimIndex].BillRate;
+
+                            remEffort = effort * (1 - (deliverable.ScopeModel[index].PercentComplete / 100));
+                            // calculte the remaining cost
+                            remCost = remEffort * referenceModel.DimensionModel[dimIndex].BillRate;
+
+                            // Calculate the role based effort
+                            var arrayIndex;
+                            arrayIndex = getRoleBasedEffortIndex(referenceModel.DimensionModel[dimIndex].MasterRoleID)
+                            if (arrayIndex != undefined) {
+                                roleBasedEffort[arrayIndex].Effort += effort;
+                            }
+                            else
+                            {
+                                // add the new index to the array
+                                var effortModel = new RoleEffortModel();
+                                effortModel.MasterRoleID = referenceModel.DimensionModel[dimIndex].MasterRoleID;
+                                effortModel.Effort = effort;
+                                effortModel.Cost = cost;
+                                roleBasedEffort.push(effortModel);
+                            }
+
+                            // Increment the total effort for the current deliverable
+                            totalEffort = totalEffort + effort;
+                            effortRemaining = effortRemaining + remEffort;
+                            totalCost = totalCost + cost;
+                            costRemaining = costRemaining + remCost;
+                            dimIndex++;
+                        }
+                    }
+                        
+                }
+            }
+            effortObject.TotalEffort = totalEffort;
+            effortObject.RemainingEffort = effortRemaining;
+            effortObject.TotalCost = totalCost;
+            effortObject.RemainingCost = costRemaining;
+            return (effortObject);
+            }
+
+
+        /// Declare a function to get the array index in the Role Based Effort array for the current role.
+        /// If this returns undefined then the role is new and should be added to the array
+        function getRoleBasedEffortIndex(ID) {
+            var index = 0;
+            var selectedIndex;
+
+            while (index < roleBasedEffort.length) {
+                if (ID == roleBasedEffort[index].MasterRoleID) {
+                    selectedIndex = index;
+                    break;
+                }
+                index++;
+            }
+            return (selectedIndex);
+        }
+
+        function getDeliverableParent(ID) {
+            for (var index = 0; index < deliverables.length; index++) {
+                if (deliverables[index].ID == ID) {
+                    return (deliverables[index]);
+                }
+            }
+        }
+
+        // Declare a function to load the model data for the currently selected row
+        function loadModel(deliverable) {
+            var targetUrl;
+
+            targetUrl = DeliverableModelUrl + "/" + deliverable.ID;
+
+            // reset the current data
+            resetScopeModelDisplay();
+
+            var row = new scopeModelControl();
+            // Build the control elements based on the scope model previously loaded
+            for (var index = 0; index < deliverable.ScopeModel.length; index++) {
+                var model = deliverable.ScopeModel[index];
+                // Make sure this is a value record
+                if (model.NaturalUnitID != 0) {
+                    row.add(model);
+                }
+            }
+
+        }
+
+        function resetScopeModelDisplay(event) {
+            var table;
+            var count = 0;
+            // remove the data rows
+//            $('#scopeModelTable tr').each(function () {
+            $('#scopeModelBody tr').each(function () {
+                    // Skip the header row
+//                if (count >= 1) {
+                    $(this).remove();
+//                }
+                // Increment the counter
+                count++;
+            });
+
+        }
+
+        function highlightRowHandler(event) {
+
+            currentDeliverable = event.data.param1;
+            highlightRow(currentDeliverable);
+        }
+
+        function highlightRow(deliverable) {
+            var id;
+            var node;
+
+            // Check to see if the form is already in edit mode
+            if (!deliverableEdit) {
+
+                // reset the display to eliminate any current hgihlighting
+                resetDisplayHighlight();
+
+                // Update the currentDeliverable based on the new selection
+//                currentDeliverable = event.data.param1;
+
+                node = event.target;
+                $("#row" + deliverable.ID).css({ "background": "linear-gradient(rgba(128,193,229,1),white,rgba(128,193,229,1))" });
+                // Load the model for the current selected row
+                loadModel(deliverable);
+            }
+            else {
+                alert("You must save the record currently being edited beore you can change focus");
+            }
+        }
+
+        function getParentNode(node, ID) {
+            node = node.parentNode;
+            if (node.id != ("row" + ID)) {
+                node = getParentNode(node, ID);
+            }
+            return (node);
+        }
+
+
+        function renderRoleBasedGraph() {
+            var targetUrl;
+            targetUrl = ProjectSummaryUrl + "?ProjectID=" + c_currentProjectID + "&OrgID=" + orgID;
+
+            $.ajax({
+                url: targetUrl,
+                type: 'GET',
+                dataType: 'json',
+            }).done(function (data, txtStatus, jqXHR) {
+                drawDiagram(data);
+                drawLegend(data);
+                //                drawCostDiagram(data);
+                drawCostDiagram(data);
+                drawCostLegend(data);
+                drawUnitDiagram(data);
+                drawUnitLegend(data);
+                drawUnitCostDiagram(data);
+                drawUnitCostLegend(data);
+            }).fail(function (xhr, textStatus, errorThrown) {
+                alert("Insert Error");
+            });
+            
+        }
+
+        function renderUnitBasedGraph() {
+//            drawUnitLegend();
+        }
+
+        // Declare a function to write the legend for the Role BAsed effort graph
+        function drawLegend(data) {
+            var index = 0;
+            var relativeEffort = 0;
+
+            // Update the diagram label
+            $("#roleLabel").text("Remaining Effort By Role");
+            // reposition the legend
+            $("#legendContainer").addClass("legendContainer").css({'position':'absolute', 'left': '200px', 'top': '70px' }).appendTo("#RoleBasedGraphContainer")
+
+            // loop over the roles in the summary data
+            while (index < data.Utilization.length) {
+                // Create a new div to store the color
+                $("<DIV></DIV>").addClass('legendColorBox').css({ 'border': 'solid 1px', 'top': (index * 25) , 'background-color': colors[index] }).appendTo("#legendContainer");
+                // add the label
+                // Calculate the percentage effort
+                relativeEffort = (data.Utilization[index].effort / data.EffortRemaining)*100;
+                $("<DIV></DIV>").addClass('legendLabel').text("(" + (relativeEffort).toFixed(0) + "%) " + data.Utilization[index].Name).css({ 'left': '25px', 'top': (index * 25) }).appendTo("#legendContainer");
+                index++;
+            }
+
+        }
+
+
+        // Declare a function to write the legend for the Role BAsed effort graph
+        function drawUnitLegend(data) {
+            var index = 0;
+            var relativeEffort = 0;
+
+            // Update the diagram label
+            $("#unitLabel").text("Remaining Effort By Component");
+            // reposition the legend
+            $("#unitLegendContainer").addClass("legendContainer").css({ 'position': 'absolute', 'left': '200px', 'top': '320px' }).appendTo("#UnitBasedGraphContainer")
+
+            // loop over the roles in the summary data
+            // loop over the roles in the summary data
+            while (index < data.UnitUtilization.length) {
+                // Create a new div to store the color
+                $("<DIV></DIV>").addClass('legendColorBox').css({ 'border': 'solid 1px', 'top': (index * 25), 'background-color': colors[index] }).appendTo("#unitLegendContainer");
+                // add the label
+                // Calculate the percentage effort
+                relativeEffort = (data.UnitUtilization[index].effort / data.EffortRemaining) * 100;
+                $("<DIV></DIV>").addClass('legendLabel').text("(" + (relativeEffort).toFixed(0) + "%) " + data.UnitUtilization[index].Name).css({ 'left': '25px', 'top': (index * 25) }).appendTo("#unitLegendContainer");
+                index++;
+            }
+
+        }
+
+        // Declare a function to write the legend for the Role BAsed cost graph
+        function drawCostLegend(data) {
+            var index = 0;
+            var relativeCost = 0;
+
+            // Update the diagram label
+            $("#roleCostLabel").text("Remaining Cost By Role");
+            // reposition the legend
+            $("#legendCostContainer").addClass("legendContainer").css({ 'position': 'absolute', 'left': '620px', 'top': '70px' }).appendTo("#RoleBasedCostContainer")
+
+            // loop over the roles in the summary data
+            while (index < data.Utilization.length) {
+                // Create a new div to store the color
+                $("<DIV></DIV>").addClass('legendColorBox').css({ 'border': 'solid 1px', 'top': (index * 25), 'background-color': colors[index] }).appendTo("#legendCostContainer");
+                // add the label
+                // Calculate the percentage effort
+                relativeCost = (data.Utilization[index].cost / data.CostRemaining) * 100;
+                $("<DIV></DIV>").addClass('legendLabel').text("(" + (relativeCost).toFixed(0) + "%) " + data.Utilization[index].Name).css({ 'left': '25px', 'top': (index * 25) }).appendTo("#legendCostContainer");
+                index++;
+            }
+
+        }
+
+        // Declare a function to write the legend for the Role BAsed effort graph
+        function drawUnitCostLegend(data) {
+            var index = 0;
+            var relativeCost = 0;
+
+            // Update the diagram label
+            $("#unitCostLabel").text("Remaining Cost By Component");
+            // reposition the legend
+            $("#unitLegendCostContainer").addClass("legendContainer").css({ 'position': 'absolute', 'left': '620px', 'top': '320px' }).appendTo("#UnitBasedCostContainer")
+
+            // loop over the roles in the summary data
+            // loop over the roles in the summary data
+            while (index < data.UnitUtilization.length) {
+                // Create a new div to store the color
+                $("<DIV></DIV>").addClass('legendColorBox').css({ 'border': 'solid 1px', 'top': (index * 25), 'background-color': colors[index] }).appendTo("#unitLegendCostContainer");
+                // add the label
+                // Calculate the percentage effort
+                relativeCost = (data.UnitUtilization[index].cost / data.CostRemaining) * 100;
+                $("<DIV></DIV>").addClass('legendLabel').text("(" + (relativeCost).toFixed(0) + "%) " + data.UnitUtilization[index].Name).css({ 'left': '25px', 'top': (index * 25) }).appendTo("#unitLegendCostContainer");
+                index++;
+            }
+
+        }
+
+
+        /// Declare a function to draw the pie chart for the Role Based effort graph
+        function drawDiagram(data) {
+            var testCount = 0;
+            var count = 0;
+            var left = 75;
+            var top = 75;
+            var radius = 70;
+            var startPoint;
+            var stopPoint;
+
+            var b_canvas = document.getElementById("roleGraph");
+            var context = b_canvas.getContext("2d");
+
+            // reset the canvas
+            resetGraph();;
+
+                // Draw some arcs
+                count = 0;
+                var startPoint = -Math.PI / 2;
+                var incrementalEffort;
+
+                while (count < data.Utilization.length) {
+                    context.beginPath();
+                    context.fillStyle = colors[count];
+                    if(data.Utilization[count].effort > 0){
+                        stopPoint = startPoint + ((data.Utilization[count].effort / data.EffortRemaining) * 2 * Math.PI);
+                        context.moveTo(left, top);
+                        context.arc(left, top, radius, startPoint, stopPoint);
+                        context.lineTo(left, top);
+                        context.fill();
+                        startPoint = stopPoint;
+                    }
+                    context.closePath();
+                    count++;
+                }
+
+
+            }
+
+
+        /// Declare a function to draw the pie chart for the Role Based effort graph
+        function drawCostDiagram(data) {
+            var testCount = 0;
+            var count = 0;
+            var left = 75;
+            var top = 75;
+            var radius = 70;
+            var startPoint;
+            var stopPoint;
+
+            var b_canvas = document.getElementById("roleCostGraph");
+            var context = b_canvas.getContext("2d");
+
+            // reset the canvas
+            resetCostGraph();;
+
+            // Draw some arcs
+            count = 0;
+            var startPoint = -Math.PI / 2;
+            var incrementalEffort;
+
+            
+            while (count < data.Utilization.length) {
+                context.beginPath();
+                context.fillStyle = colors[count];
+                if (data.Utilization[count].cost > 0) {
+                    stopPoint = startPoint + ((data.Utilization[count].cost / data.CostRemaining) * 2 * Math.PI);
+                    context.moveTo(left, top);
+                    context.arc(left, top, radius, startPoint, stopPoint);
+                    context.lineTo(left, top);
+                    context.fill();
+                    startPoint = stopPoint;
+                }
+                context.closePath();
+                count++;
+            }
+            
+
+        }
+
+        /// Declare a function to draw the pie chart for the Role Based effort graph
+        function drawUnitDiagram(data) {
+            var testCount = 0;
+            //            var colors = new Array("#9E5C4B", "#9e854b", "#8d9e4b", "#639e4b", "#4b9e5c", "#4b9e85", "#4b8d9e", "#4b639e", "#5c4b9e", "#854b9e", "#9e488d", "#9e4b63");
+            var count = 0;
+            var left = 75;
+            var top = 75;
+            var radius = 70;
+            var startPoint;
+            var stopPoint;
+
+            //            var b_canvas = $("#roleGraph");
+            var b_canvas = document.getElementById("unitGraph");
+            var context = b_canvas.getContext("2d");
+
+            // reset the canvas
+            resetUnitGraph();;
+
+            // Draw some arcs
+            count = 0;
+            var startPoint = -Math.PI / 2;
+            var incrementalEffort;
+
+            while (count < data.UnitUtilization.length) {
+                context.beginPath();
+                context.fillStyle = colors[count];
+                if (data.UnitUtilization[count].effort > 0) {
+                    stopPoint = startPoint + ((data.UnitUtilization[count].effort / data.EffortRemaining) * 2 * Math.PI);
+                    context.moveTo(left, top);
+                    context.arc(left, top, radius, startPoint, stopPoint);
+                    context.lineTo(left, top);
+                    context.fill();
+                    startPoint = stopPoint;
+                }
+                context.closePath();
+                count++;
+            }
+
+
+        }
+
+
+        /// Declare a function to draw the pie chart for the Role Based cost graph
+        function drawUnitCostDiagram(data) {
+            var testCount = 0;
+            //            var colors = new Array("#9E5C4B", "#9e854b", "#8d9e4b", "#639e4b", "#4b9e5c", "#4b9e85", "#4b8d9e", "#4b639e", "#5c4b9e", "#854b9e", "#9e488d", "#9e4b63");
+            var count = 0;
+            var left = 75;
+            var top = 75;
+            var radius = 70;
+            var startPoint;
+            var stopPoint;
+
+            //            var b_canvas = $("#roleGraph");
+            var b_canvas = document.getElementById("unitCostGraph");
+            var context = b_canvas.getContext("2d");
+
+            // reset the canvas
+            resetUnitCostGraph();;
+
+            // Draw some arcs
+            count = 0;
+            var startPoint = -Math.PI / 2;
+            var incrementalEffort;
+
+            while (count < data.UnitUtilization.length) {
+                context.beginPath();
+                context.fillStyle = colors[count];
+                if (data.UnitUtilization[count].cost > 0) {
+                    stopPoint = startPoint + ((data.UnitUtilization[count].cost / data.CostRemaining) * 2 * Math.PI);
+                    context.moveTo(left, top);
+                    context.arc(left, top, radius, startPoint, stopPoint);
+                    context.lineTo(left, top);
+                    context.fill();
+                    startPoint = stopPoint;
+                }
+                context.closePath();
+                count++;
+            }
+
+
+        }
+
+        function resetCostGraph() {
+
+            var b_canvas = document.getElementById("roleCostGraph");
+            var context = b_canvas.getContext("2d");
+
+            // reset the canvas
+            b_canvas.width = b_canvas.width;
+            // reset the legend content
+            $("#legendCostContainer div").each(function () {
+                $(this).remove();
+            });
+        }
+
+
+        function resetGraph() {
+
+            var b_canvas = document.getElementById("roleGraph");
+            var context = b_canvas.getContext("2d");
+
+            // reset the canvas
+            b_canvas.width = b_canvas.width;
+            // reset the legend content
+            $("#legendContainer div").each(function () {
+                $(this).remove();
+            });
+        }
+
+        function resetUnitGraph() {
+
+            var b_canvas = document.getElementById("unitGraph");
+            var context = b_canvas.getContext("2d");
+
+            // reset the canvas
+            b_canvas.width = b_canvas.width;
+            // reset the legend content
+            $("#unitLegendContainer div").each(function () {
+                $(this).remove();
+            });
+        }
+
+        function resetUnitCostGraph() {
+
+            var b_canvas = document.getElementById("unitCostGraph");
+            var context = b_canvas.getContext("2d");
+
+            // reset the canvas
+            b_canvas.width = b_canvas.width;
+            // reset the legend content
+            $("#unitLegendCostContainer div").each(function () {
+                $(this).remove();
+            });
+        }
+
+
+    </script>
+</html>
