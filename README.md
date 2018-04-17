@@ -7,5 +7,5 @@ Currently, this project does not include creation scripts for the database itsel
 
 <h2>Structure</h2>
 <p>Documentation - Contains basic overview information about Model BAsed Effort Estimation (MB2E) as well as the pmmoda application</p>
-<p>pmoda_Alpha - Contains the Visual Studio project for the base application. Review the Controllers and Models sub-folders to understand the basic web service layer and the supported end points</p<
+<p>pmoda_Alpha - Contains the Visual Studio project for the base application. Review the Controllers and Models sub-folders to understand the basic web service layer and the supported end points. Refer to the scripts sub folder for the javascript code fefining the UI functionality</p>
 <p>SQL Scripts - Contains DDL scripts for the background tables and stored procedures. All Web Service reads are via stored procedures</p>
